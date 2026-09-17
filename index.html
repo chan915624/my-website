@@ -19,13 +19,13 @@
             position: relative;
         }
 
-        /* --- 用 CSS 畫出的淡藍色小愛心 --- */
+        /* --- 淡藍色、向左傾斜的跳動愛心 --- */
         .big-heart {
             position: absolute;
             left: 15%;       
-            top: 5%;        
-            width: 50px;     
-            height: 45px;    
+            top: 8%;        
+            width: 75px;     /* 🌟 稍微放大 */
+            height: 75px;    /* 🌟 稍微放大 */
             animation: heartbeat 1.5s ease-in-out infinite;
             transform-origin: center;
         }
@@ -35,15 +35,15 @@
             content: "";
             position: absolute;
             top: 0;
-            width: 26px;    
-            height: 42px;   
+            width: 38px;    /* 配合放大 */
+            height: 60px;   /* 配合放大 */
             background: #87CEEB; /* 淡藍色 */
-            border-radius: 26px 26px 0 0;
-            box-shadow: 0 6px 12px rgba(135, 206, 235, 0.4);
+            border-radius: 38px 38px 0 0;
+            box-shadow: 0 8px 15px rgba(135, 206, 235, 0.4);
         }
 
         .big-heart::before {
-            left: 25px;     
+            left: 38px;     /* 配合放大 */
             transform: rotate(-45deg);
             transform-origin: 0 100%;
         }
@@ -54,10 +54,11 @@
             transform-origin: 100% 100%;
         }
 
+        /* 心跳動畫 + 固定向左傾斜 15 度 */
         @keyframes heartbeat {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-            100% { transform: scale(1); }
+            0% { transform: rotate(-15deg) scale(1); }
+            50% { transform: rotate(-15deg) scale(1.15); }
+            100% { transform: rotate(-15deg) scale(1); }
         }
     </style>
 </head>
