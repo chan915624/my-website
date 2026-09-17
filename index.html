@@ -15,31 +15,30 @@
         body {
             width: 100vw;
             height: 100vh;
-            /* 粉嫩天空漸層：粉紅 -> 淺紫 -> 鵝黃 */
+            /* 粉嫩天空漸層 */
             background: linear-gradient(to bottom, #ffb6c1 0%, #ffc0cb 30%, #e6e6fa 70%, #fffacd 100%);
             position: relative;
         }
 
-        /* --- 靠左側、微微傾斜的跳動愛心 --- */
+        /* 左側微微傾斜的跳動愛心 */
         .big-heart {
             position: absolute;
             left: 15%;       /* 距離左邊 15% */
             top: 45%;        /* 距離上面 45% */
             font-size: 150px; /* 愛心大小 */
             color: #ff69b4;   /* 愛心顏色 */
-            text-shadow: 0 10px 20px rgba(255, 105, 180, 0.4); /* 柔和陰影 */
-            /* 改成心跳動畫 */
+            text-shadow: 0 10px 20px rgba(255, 105, 180, 0.4);
             animation: heartbeat 1.5s ease-in-out infinite;
             user-select: none;
         }
 
-        /* 像呼吸/心跳一樣的縮放動畫 */
+        /* 心跳縮放動畫 */
         @keyframes heartbeat {
             0% {
                 transform: rotate(-15deg) scale(1);
             }
             50% {
-                transform: rotate(-15deg) scale(1.15); /* 放大 15% */
+                transform: rotate(-15deg) scale(1.15);
             }
             100% {
                 transform: rotate(-15deg) scale(1);
@@ -48,7 +47,6 @@
     </style>
 </head>
 <body>
-    <!-- 靠左側、微微傾斜的跳動愛心 -->
     <div class="big-heart">❤</div>
 </body>
 </html>
