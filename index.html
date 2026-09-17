@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>夢幻星空背景</title>
+    <style>
+        /* 基礎設定 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            overflow: hidden; /* 隱藏滾動條 */
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(to bottom, #0b1021 0%, #1a2a6c 40%, #2a4b7c 70%, #f2a65a 100%);
+            position: relative;
+        }
+
+        /* 星星圖層 */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70%;
+            /* 使用多重徑向漸層模擬滿天星斗 */
+            background-image: 
+                radial-gradient(1px 1px at 10% 20%, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 30% 10%, #fff, transparent),
+                radial-gradient(1px 1px at 50% 30%, #fff, transparent),
+                radial-gradient(2px 2px at 70% 15%, #fff, transparent),
+                radial-gradient(1px 1px at 85% 40%, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 15% 60%, #fff, transparent),
+                radial-gradient(1px 1px at 45% 70%, #fff, transparent),
+                radial-gradient(2px 2px at 65% 55%, #fff, transparent),
+                radial-gradient(1px 1px at 80% 75%, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 95% 25%, #fff, transparent);
+            background-size: 200px 200px; /* 重複星星圖案 */
+            animation: twinkle 4s infinite alternate;
+        }
+
+        /* 星星閃爍動畫 */
+        @keyframes twinkle {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        /* 月亮 */
+        .moon {
+            position: absolute;
+            top: 15%;
+            right: 25%;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            box-shadow: 0 0 30px 10px rgba(135, 206, 250, 0.6), inset -15px 0 0 0 #b0d4f1;
+            background: transparent;
+            transform: rotate(-20deg);
+        }
+
+        /* 流星群 */
+        .meteor {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8), 0 0 20px 5px rgba(135, 206, 250, 0.6);
+            animation: shoot linear infinite;
+        }
+
+        /* 設定每顆流星不同的位置與速度 */
+        .meteor:nth-child(1) { top: 10%; left: 80%; animation-duration: 3s; animation-delay: 0s; }
+        .meteor:nth-child(2) { top: 30%; left: 60%; animation-duration: 4s; animation-delay: 1s; }
+        .meteor:nth-child(3) { top: 5%; left: 40%; animation-duration: 2.5s; animation-delay: 2s; }
+        .meteor:nth-child(4) { top: 50%; left: 90%; animation-duration: 5s; animation-delay: 0.5s; }
+        .meteor:nth-child(5) { top: 20%; left: 20%; animation-duration: 3.5s; animation-delay: 3s; }
+
+        /* 流星劃過動畫 */
+        @keyframes shoot {
+            0% {
+                transform: translate(0, 0) rotate(-45deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-600px, 600px) rotate(-45deg);
+                opacity: 0;
+            }
+        }
+
+        /* 山脈與地平線 */
+        .mountains {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 45%;
+        }
+
+        /* 利用 clip-path 繪製多層山脈 */
+        .mountain-layer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a1c2e;
+        }
+
+        .layer-1 {
+            background: #143a52;
+            clip-path: polygon(0% 100%, 0% 70%, 15% 50%, 30% 65%, 45% 40%, 65% 60%, 80% 45%, 100% 60%, 100% 100%);
+            opacity: 0.8;
+        }
+
+        .layer-2 {
+            background: #0c2537;
+            clip-path: polygon(0% 100%, 0% 80%, 10% 60%, 25% 75%, 40% 55%, 55% 70%, 75% 50%, 90% 65%, 100% 55%, 100% 100%);
+        }
+
+        .layer-3 {
+            background: #061420;
+            clip-path: polygon(0% 100%, 0% 90%, 20% 75%, 35% 85%, 50% 70%, 70% 85%, 85% 75%, 100% 85%, 100% 100%);
+        }
+
+        /* 地平線的暖色微光 */
+        .glow {
+            position: absolute;
+            bottom: 40%;
+            left: 0;
+            width: 100%;
+            height: 15%;
+            background: radial-gradient(ellipse at bottom, rgba(242, 166, 90, 0.4) 0%, transparent 70%);
+            filter: blur(10px);
+        }
+
+        /* 前景松樹 */
+        .tree {
+            position: absolute;
+            bottom: 0;
+            right: 15%;
+            width: 0;
+            height: 0;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
+            border-bottom: 120px solid #03080e;
+        }
+        
+        .tree::before {
+            content: '';
+            position: absolute;
+            bottom: -160px;
+            left: -20px;
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 80px solid #03080e;
+        }
+
+        .tree-2 {
+            position: absolute;
+            bottom: 0;
+            right: 30%;
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 80px solid #03080e;
+        }
+    </style>
+</head>
+<body>
+    <!-- 星空與流星 -->
+    <div class="stars"></div>
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+    
+    <!-- 月亮 -->
+    <div class="moon"></div>
+
+    <!-- 山脈與地平線 -->
+    <div class="mountains">
+        <div class="glow"></div>
+        <div class="mountain-layer layer-1"></div>
+        <div class="mountain-layer layer-2"></div>
+        <div class="mountain-layer layer-3"></div>
+    </div>
+
+    <!-- 前景樹木 -->
+    <div class="tree"></div>
+    <div class="tree-2"></div>
+</body>
+</html>
