@@ -15,7 +15,6 @@
         body {
             width: 100vw;
             height: 100vh;
-            /* 🌟 背景改回原本的粉嫩天空漸層 */
             background: linear-gradient(to bottom, #ffb6c1 0%, #ffc0cb 30%, #e6e6fa 70%, #fffacd 100%);
             position: relative;
         }
@@ -23,26 +22,19 @@
         /* 左側微微傾斜的跳動愛心 */
         .big-heart {
             position: absolute;
-            left: 15%;       /* 距離左邊 15% */
-            top: 20%;        /* 距離上面 20% */
-            font-size: 150px; /* 愛心大小 */
-            color: #ffd700;   /* 🌟 愛心換成鵝黃色！ */
-            text-shadow: 0 10px 20px rgba(255, 215, 0, 0.4); /* 配合黃色的柔和陰影 */
+            left: 15%;       
+            top: 5%;        /* 🌟 改到最上面！一定有感！ */
+            font-size: 150px; 
+            color: #ffd700;  
+            text-shadow: 0 10px 20px rgba(255, 215, 0, 0.4); 
             animation: heartbeat 1.5s ease-in-out infinite;
             user-select: none;
         }
 
-        /* 心跳縮放動畫 */
         @keyframes heartbeat {
-            0% {
-                transform: rotate(-15deg) scale(1);
-            }
-            50% {
-                transform: rotate(-15deg) scale(1.15);
-            }
-            100% {
-                transform: rotate(-15deg) scale(1);
-            }
+            0% { transform: rotate(-15deg) scale(1); }
+            50% { transform: rotate(-15deg) scale(1.15); }
+            100% { transform: rotate(-15deg) scale(1); }
         }
     </style>
 </head>
