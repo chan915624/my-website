@@ -1,43 +1,46 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>給最可愛的妳</title>
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        body {
-            background: linear-gradient(to bottom, #ffb6c1 0%, #ffc0cb 30%, #e6e6fa 70%, #fffacd 100%);
-        }
-
-        /* --- 左上角的斜信封 💌 --- /
-        .envelope {
-            position: fixed; 
-
-            / 這裡就是你要的位置：左上角，但留有一點空間 /
-            top: 12%;        / 距離頂部 12%，不會被瀏海擋住，也不會太下面 /
-            left: 12%;       / 距離左邊 12%，不會貼死左邊 /
-
-            font-size: 90px; / 大小適中 /
-
-            / 保證會斜！ /
-            transform: rotate(-20deg); 
-            -webkit-transform: rotate(-20deg); / 針對 iPhone 的保險 */
-
-            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.15));
-            user-select: none;
-            line-height: 1;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>給你的信</title>
+<style>
+  body { margin:0; height:100vh; display:flex; justify-content:center; align-items:center;
+         background:linear-gradient(135deg,#ffdde1,#ee9ca7); font-family:sans-serif; }
+  .screen { position:absolute; text-align:center; transition:opacity .5s; }
+  #letter { opacity:0; pointer-events:none; }
+  .env { font-size:120px; cursor:pointer; animation:pulse 1.5s infinite; }
+  @keyframes pulse { 50% { transform:scale(1.1); } }
+  #letter h1 { font-size:56px; color:#e63946; letter-spacing:8px; }
+  button { padding:10px 24px; border:none; border-radius:20px; background:#e63946; color:#fff; cursor:pointer; }
+</style>
 </head>
 <body>
-    <div class="envelope">💌</div>
+
+  <div class="screen" id="envelope">
+    <div class="env" onclick="open()">💌</div>
+    <p>點擊打開</p>
+  </div>
+
+  <div class="screen" id="letter">
+    <h1>我愛你</h1>
+    <button onclick="back()">返回</button>
+  </div>
+
+<script>
+  function open() {
+    envelope.style.opacity = 0;
+    envelope.style.pointerEvents = 'none';
+    letter.style.opacity = 1;
+    letter.style.pointerEvents = 'auto';
+  }
+  function back() {
+    letter.style.opacity = 0;
+    letter.style.pointerEvents = 'none';
+    envelope.style.opacity = 1;
+    envelope.style.pointerEvents = 'auto';
+  }
+</script>
+
 </body>
 </html>
