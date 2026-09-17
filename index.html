@@ -3,214 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>夢幻星空</title>
+    <title>給最可愛的妳</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             overflow: hidden;
+            font-family: 'Microsoft JhengHei', sans-serif;
         }
 
         body {
             width: 100vw;
             height: 100vh;
-            /* 天空底色：從深藍到地平線的暖橘 */
-            background: linear-gradient(to bottom, #070b19 0%, #101f3c 30%, #1e3a5f 60%, #4a6e8a 80%, #f2a65a 100%);
+            /* 粉嫩天空漸層：粉紅 -> 淺紫 -> 鵝黃 */
+            background: linear-gradient(to bottom, #ffb6c1 0%, #ffc0cb 30%, #e6e6fa 70%, #fffacd 100%);
             position: relative;
         }
 
-        /* --- 星空層 --- */
-        .stars {
+        /* --- 胖胖白雲 --- */
+        .cloud {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 75%;
-            background-image: 
-                radial-gradient(1px 1px at 5% 10%, #fff, transparent),
-                radial-gradient(2px 2px at 15% 25%, #fff, transparent),
-                radial-gradient(1px 1px at 25% 5%, #fff, transparent),
-                radial-gradient(1.5px 1.5px at 35% 40%, #fff, transparent),
-                radial-gradient(2px 2px at 45% 15%, #fff, transparent),
-                radial-gradient(1px 1px at 55% 55%, #fff, transparent),
-                radial-gradient(1.5px 1.5px at 65% 30%, #fff, transparent),
-                radial-gradient(2px 2px at 75% 65%, #fff, transparent),
-                radial-gradient(1px 1px at 85% 20%, #fff, transparent),
-                radial-gradient(1.5px 1.5px at 95% 50%, #fff, transparent),
-                radial-gradient(1px 1px at 10% 70%, #fff, transparent),
-                radial-gradient(2px 2px at 30% 80%, #fff, transparent),
-                radial-gradient(1px 1px at 60% 85%, #fff, transparent),
-                radial-gradient(1.5px 1.5px at 80% 90%, #fff, transparent);
-            background-size: 300px 300px;
-            animation: twinkle 5s infinite alternate;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: float 6s ease-in-out infinite;
+            box-shadow: 0 10px 20px rgba(255, 182, 193, 0.3);
+        }
+        .cloud::before, .cloud::after {
+            content: '';
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+        }
+        /* 雲朵 1 */
+        .cloud:nth-child(1) { width: 100px; height: 40px; top: 15%; left: 10%; }
+        .cloud:nth-child(1)::before { width: 50px; height: 50px; top: -20px; left: 15px; }
+        .cloud:nth-child(1)::after { width: 70px; height: 70px; top: -30px; left: 40px; }
+        
+        /* 雲朵 2 */
+        .cloud:nth-child(2) { width: 140px; height: 50px; top: 30%; right: 15%; animation-delay: 2s; }
+        .cloud:nth-child(2)::before { width: 60px; height: 60px; top: -25px; left: 20px; }
+        .cloud:nth-child(2)::after { width: 80px; height: 80px; top: -40px; left: 60px; }
+
+        /* 雲朵 3 */
+        .cloud:nth-child(3) { width: 80px; height: 30px; top: 50%; left: 20%; animation-delay: 4s; }
+        .cloud:nth-child(3)::before { width: 40px; height: 40px; top: -15px; left: 10px; }
+        .cloud:nth-child(3)::after { width: 55px; height: 55px; top: -25px; left: 35px; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* --- 飄落的粉紅愛心 --- */
+        .heart {
+            position: absolute;
+            top: -50px;
+            color: #ff69b4;
+            font-size: 20px;
+            animation: fall linear infinite;
+            opacity: 0.8;
             z-index: 1;
         }
+        /* 設定不同愛心的位置與速度 */
+        .heart:nth-child(4) { left: 10%; animation-duration: 6s; animation-delay: 0s; }
+        .heart:nth-child(5) { left: 30%; animation-duration: 8s; animation-delay: 1s; font-size: 15px; }
+        .heart:nth-child(6) { left: 50%; animation-duration: 5s; animation-delay: 2s; font-size: 25px; }
+        .heart:nth-child(7) { left: 70%; animation-duration: 7s; animation-delay: 0.5s; }
+        .heart:nth-child(8) { left: 90%; animation-duration: 9s; animation-delay: 3s; font-size: 18px; }
 
-        @keyframes twinkle {
-            0% { opacity: 0.5; }
-            100% { opacity: 1; }
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
 
-        /* --- 月亮 --- */
-        .moon {
+        /* --- 底部可愛小熊 --- */
+        .bear-container {
             position: absolute;
-            top: 12%;
-            right: 30%;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+        }
+        .bear {
+            width: 140px;
+            height: 120px;
+            background: #f4c27a; /* 小熊奶茶色 */
+            border-radius: 50% 50% 40% 40%;
+            position: relative;
+            box-shadow: inset 0 -10px 20px rgba(0,0,0,0.1);
+        }
+        /* 耳朵 */
+        .bear::before, .bear::after {
+            content: '';
+            position: absolute;
             width: 50px;
             height: 50px;
+            background: #f4c27a;
             border-radius: 50%;
-            box-shadow: 
-                inset -12px 0 0 0 #c4e3ff, /* 月亮的亮面 */
-                0 0 40px 10px rgba(135, 206, 250, 0.5), /* 外光暈 */
-                0 0 80px 20px rgba(135, 206, 250, 0.2);
-            transform: rotate(-15deg);
+            top: -20px;
+            box-shadow: inset 0 -5px 10px rgba(0,0,0,0.1);
+        }
+        .bear::before { left: -10px; }
+        .bear::after { right: -10px; }
+
+        /* 耳朵內裡 */
+        .ear-inner {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: #ffb6c1;
+            border-radius: 50%;
+            top: -10px;
             z-index: 2;
         }
+        .ear-left { left: 5px; }
+        .ear-right { right: 5px; }
 
-        /* --- 流星群 (帶尾巴) --- */
-        .meteor {
+        /* 眼睛 */
+        .eye {
             position: absolute;
-            width: 150px; /* 流星長度 */
-            height: 2px;
-            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+            width: 12px;
+            height: 12px;
+            background: #333;
             border-radius: 50%;
-            opacity: 0;
-            transform: rotate(-35deg); /* 流星角度 */
-            animation: shoot linear infinite;
+            top: 35px;
+            z-index: 3;
+        }
+        .eye-left { left: 40px; }
+        .eye-right { right: 40px; }
+
+        /* 鼻子 */
+        .nose {
+            position: absolute;
+            width: 16px;
+            height: 12px;
+            background: #333;
+            border-radius: 50%;
+            top: 55px;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 3;
         }
 
-        /* 設定不同流星的起點與時間 */
-        .meteor:nth-child(1) { top: 5%; left: 70%; animation-duration: 3s; animation-delay: 0s; }
-        .meteor:nth-child(2) { top: 25%; left: 90%; animation-duration: 4.5s; animation-delay: 1.5s; }
-        .meteor:nth-child(3) { top: 15%; left: 40%; animation-duration: 2.8s; animation-delay: 3s; }
-        .meteor:nth-child(4) { top: 45%; left: 80%; animation-duration: 5s; animation-delay: 0.8s; }
-        .meteor:nth-child(5) { top: 10%; left: 20%; animation-duration: 3.5s; animation-delay: 4s; }
-
-        @keyframes shoot {
-            0% { 
-                transform: translate(0, 0) rotate(-35deg); 
-                opacity: 0; 
-            }
-            10% { opacity: 1; }
-            100% { 
-                transform: translate(-800px, 600px) rotate(-35deg); 
-                opacity: 0; 
-            }
-        }
-
-        /* --- 山脈與地平線 --- */
-        .mountains {
+        /* 腮紅 */
+        .blush {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 50%;
-            z-index: 4;
+            width: 20px;
+            height: 12px;
+            background: #ffb6c1;
+            border-radius: 50%;
+            top: 50px;
+            opacity: 0.8;
+            z-index: 3;
         }
-
-        /* 地平線暖光 */
-        .glow {
-            position: absolute;
-            bottom: 25%;
-            left: 0;
-            width: 100%;
-            height: 20%;
-            background: radial-gradient(ellipse at bottom, rgba(255, 180, 100, 0.3) 0%, transparent 70%);
-            filter: blur(15px);
-            z-index: 1;
-        }
-
-        .mountain-layer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* 第1層 (最遠) */
-        .layer-1 {
-            background: #2a4b6e;
-            clip-path: polygon(0% 100%, 0% 70%, 15% 50%, 30% 65%, 45% 40%, 60% 55%, 75% 45%, 90% 60%, 100% 50%, 100% 100%);
-            opacity: 0.7;
-        }
-        /* 第2層 */
-        .layer-2 {
-            background: #1c3450;
-            clip-path: polygon(0% 100%, 0% 80%, 10% 65%, 25% 75%, 40% 55%, 55% 70%, 70% 50%, 85% 65%, 100% 55%, 100% 100%);
-        }
-        /* 第3層 */
-        .layer-3 {
-            background: #0f2136;
-            clip-path: polygon(0% 100%, 0% 85%, 20% 70%, 35% 85%, 50% 65%, 65% 80%, 80% 70%, 100% 85%, 100% 100%);
-        }
-        /* 第4層 (最近，最深色) */
-        .layer-4 {
-            background: #06101c;
-            clip-path: polygon(0% 100%, 0% 95%, 15% 85%, 30% 95%, 45% 80%, 60% 90%, 75% 85%, 90% 95%, 100% 90%, 100% 100%);
-        }
-
-        /* --- 前景松樹 --- */
-        .tree {
-            position: absolute;
-            bottom: 0;
-            right: 10%;
-            width: 0;
-            height: 0;
-            border-left: 40px solid transparent;
-            border-right: 40px solid transparent;
-            border-bottom: 160px solid #03080e;
-            z-index: 5;
-        }
-        .tree::before {
-            content: '';
-            position: absolute;
-            bottom: -200px;
-            left: -25px;
-            width: 0;
-            height: 0;
-            border-left: 25px solid transparent;
-            border-right: 25px solid transparent;
-            border-bottom: 100px solid #03080e;
-        }
-        .tree-2 {
-            position: absolute;
-            bottom: 0;
-            right: 25%;
-            width: 0;
-            height: 0;
-            border-left: 25px solid transparent;
-            border-right: 25px solid transparent;
-            border-bottom: 100px solid #03080e;
-            z-index: 5;
-        }
+        .blush-left { left: 20px; }
+        .blush-right { right: 20px; }
     </style>
 </head>
 <body>
-    <!-- 星空與流星 -->
-    <div class="stars"></div>
-    <div class="meteor"></div>
-    <div class="meteor"></div>
-    <div class="meteor"></div>
-    <div class="meteor"></div>
-    <div class="meteor"></div>
-    
-    <!-- 月亮 -->
-    <div class="moon"></div>
+    <!-- 雲朵 -->
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+    <div class="cloud"></div>
 
-    <!-- 山脈與地平線 -->
-    <div class="mountains">
-        <div class="glow"></div>
-        <div class="mountain-layer layer-1"></div>
-        <div class="mountain-layer layer-2"></div>
-        <div class="mountain-layer layer-3"></div>
-        <div class="mountain-layer layer-4"></div>
+    <!-- 飄落的愛心 -->
+    <div class="heart">❤</div>
+    <div class="heart">❤</div>
+    <div class="heart">❤</div>
+    <div class="heart">❤</div>
+    <div class="heart">❤</div>
+
+    <!-- 底部的小熊 -->
+    <div class="bear-container">
+        <div class="bear">
+            <div class="ear-inner ear-left"></div>
+            <div class="ear-inner ear-right"></div>
+            <div class="eye eye-left"></div>
+            <div class="eye eye-right"></div>
+            <div class="nose"></div>
+            <div class="blush blush-left"></div>
+            <div class="blush blush-right"></div>
+        </div>
     </div>
-
-    <!-- 前景樹木 -->
-    <div class="tree"></div>
-    <div class="tree-2"></div>
 </body>
 </html>
