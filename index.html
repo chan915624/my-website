@@ -22,12 +22,10 @@
         /* --- 左上角的文字信封 💌 --- /
         .envelope {
             position: absolute;
-            left: 8%;        / 調整到更左邊 (原本 15%) /
-            top: 5%;         / 調整到更上面 (原本 10%) /
-            font-size: 80px; / 稍微縮小一點 (原本 120px) /
-            / 向左傾斜 15 度 /
-            transform: rotate(-15deg);
-            / 加上柔和陰影 */
+            left: 18%;       / 往右移，不要貼左邊 /
+            top: 18%;        / 往下移，不要貼上面 /
+            font-size: 80px; / 大小適中，不會太巨大 /
+            transform: rotate(-15deg); / 斜斜的 */
             filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.15));
             user-select: none;
             line-height: 1;
@@ -35,7 +33,6 @@
     </style>
 </head>
 <body>
-    <!-- 直接使用文字信封符號 -->
     <div class="envelope">💌</div>
 </body>
 </html>
