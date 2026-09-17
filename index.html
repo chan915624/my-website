@@ -22,17 +22,22 @@
         /* --- 左上角的文字信封 💌 --- /
         .envelope {
             position: absolute;
-            left: 18%;       / 往右移，不要貼左邊 /
-            top: 18%;        / 往下移，不要貼上面 /
-            font-size: 80px; / 大小適中，不會太巨大 /
-            transform: rotate(-15deg); / 斜斜的 */
-            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.15));
+            left: 12%;       / 距離左邊 12%，不會太貼邊 /
+            top: 15%;        / 距離上面 15%，避開瀏海跟網址列 /
+            font-size: 80px; / 大小適中 /
             user-select: none;
             line-height: 1;
+        }
+
+        / 關鍵：用 span 強制讓 Emoji 可以旋轉 /
+        .envelope span {
+            display: inline-block;   / 讓它變成區塊才能轉 /
+            transform: rotate(-15deg); / 向左傾斜 15 度 */
+            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.15));
         }
     </style>
 </head>
 <body>
-    <div class="envelope">💌</div>
+    <div class="envelope"><span>💌</span></div>
 </body>
 </html>
