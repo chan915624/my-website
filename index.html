@@ -17,44 +17,24 @@
             height: 100vh;
             background: linear-gradient(to bottom, #ffb6c1 0%, #ffc0cb 30%, #e6e6fa 70%, #fffacd 100%);
             position: relative;
+            /* 讓愛心在畫面中垂直置中 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* --- 淡藍色、向左傾斜的跳動愛心 --- */
+        /* --- 使用標準的藍色愛心符號 💙 --- */
         .big-heart {
-            position: absolute;
-            left: 15%;       
-            top: 8%;        
-            width: 75px;     /* 🌟 稍微放大 */
-            height: 75px;    /* 🌟 稍微放大 */
+            font-size: 100px; /* 控制愛心大小 */
             animation: heartbeat 1.5s ease-in-out infinite;
-            transform-origin: center;
+            user-select: none;
+            /* 加上傾斜角度 */
+            transform: rotate(-15deg);
+            /* 加一點發光效果 */
+            filter: drop-shadow(0 8px 15px rgba(135, 206, 235, 0.6));
         }
 
-        .big-heart::before,
-        .big-heart::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            width: 38px;    /* 配合放大 */
-            height: 60px;   /* 配合放大 */
-            background: #87CEEB; /* 淡藍色 */
-            border-radius: 38px 38px 0 0;
-            box-shadow: 0 8px 15px rgba(135, 206, 235, 0.4);
-        }
-
-        .big-heart::before {
-            left: 38px;     /* 配合放大 */
-            transform: rotate(-45deg);
-            transform-origin: 0 100%;
-        }
-
-        .big-heart::after {
-            left: 0;
-            transform: rotate(45deg);
-            transform-origin: 100% 100%;
-        }
-
-        /* 心跳動畫 + 固定向左傾斜 15 度 */
+        /* 心跳動畫 (保留傾斜角度) */
         @keyframes heartbeat {
             0% { transform: rotate(-15deg) scale(1); }
             50% { transform: rotate(-15deg) scale(1.15); }
@@ -63,6 +43,7 @@
     </style>
 </head>
 <body>
-    <div class="big-heart"></div>
+    <!-- 這裡使用的是藍色愛心 Emoji 💙 -->
+    <div class="big-heart">💙</div>
 </body>
 </html>
