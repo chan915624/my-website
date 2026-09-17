@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>給你的信</title>
+<title>給薯條</title>
 <style>
   body { margin:0; height:100vh; display:flex; justify-content:center; align-items:center;
          background:linear-gradient(135deg,#ffdde1,#ee9ca7); font-family:sans-serif; }
@@ -18,8 +18,8 @@
 <body>
 
   <div class="screen" id="envelope">
-    <div class="env" onclick="open()">💌</div>
-    <p>點擊打開</p>
+    <div class="env" onclick="openLetter()">💌</div>
+    <p>點一下有驚喜</p>
   </div>
 
   <div class="screen" id="letter">
@@ -28,7 +28,10 @@
   </div>
 
 <script>
-  function open() {
+  var envelope = document.getElementById('envelope');
+  var letter   = document.getElementById('letter');
+
+  function openLetter() {
     envelope.style.opacity = 0;
     envelope.style.pointerEvents = 'none';
     letter.style.opacity = 1;
