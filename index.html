@@ -3,174 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>夢幻星空背景</title>
+    <title>夢幻星空</title>
     <style>
-        /* 基礎設定 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            overflow: hidden; /* 隱藏滾動條 */
+            overflow: hidden;
         }
 
         body {
             width: 100vw;
             height: 100vh;
-            background: linear-gradient(to bottom, #0b1021 0%, #1a2a6c 40%, #2a4b7c 70%, #f2a65a 100%);
+            /* 天空底色：從深藍到地平線的暖橘 */
+            background: linear-gradient(to bottom, #070b19 0%, #101f3c 30%, #1e3a5f 60%, #4a6e8a 80%, #f2a65a 100%);
             position: relative;
         }
 
-        /* 星星圖層 */
+        /* --- 星空層 --- */
         .stars {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 70%;
-            /* 使用多重徑向漸層模擬滿天星斗 */
+            height: 75%;
             background-image: 
-                radial-gradient(1px 1px at 10% 20%, #fff, transparent),
-                radial-gradient(1.5px 1.5px at 30% 10%, #fff, transparent),
-                radial-gradient(1px 1px at 50% 30%, #fff, transparent),
-                radial-gradient(2px 2px at 70% 15%, #fff, transparent),
-                radial-gradient(1px 1px at 85% 40%, #fff, transparent),
-                radial-gradient(1.5px 1.5px at 15% 60%, #fff, transparent),
-                radial-gradient(1px 1px at 45% 70%, #fff, transparent),
-                radial-gradient(2px 2px at 65% 55%, #fff, transparent),
-                radial-gradient(1px 1px at 80% 75%, #fff, transparent),
-                radial-gradient(1.5px 1.5px at 95% 25%, #fff, transparent);
-            background-size: 200px 200px; /* 重複星星圖案 */
-            animation: twinkle 4s infinite alternate;
+                radial-gradient(1px 1px at 5% 10%, #fff, transparent),
+                radial-gradient(2px 2px at 15% 25%, #fff, transparent),
+                radial-gradient(1px 1px at 25% 5%, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 35% 40%, #fff, transparent),
+                radial-gradient(2px 2px at 45% 15%, #fff, transparent),
+                radial-gradient(1px 1px at 55% 55%, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 65% 30%, #fff, transparent),
+                radial-gradient(2px 2px at 75% 65%, #fff, transparent),
+                radial-gradient(1px 1px at 85% 20%, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 95% 50%, #fff, transparent),
+                radial-gradient(1px 1px at 10% 70%, #fff, transparent),
+                radial-gradient(2px 2px at 30% 80%, #fff, transparent),
+                radial-gradient(1px 1px at 60% 85%, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 80% 90%, #fff, transparent);
+            background-size: 300px 300px;
+            animation: twinkle 5s infinite alternate;
+            z-index: 1;
         }
 
-        /* 星星閃爍動畫 */
         @keyframes twinkle {
-            0% { opacity: 0.6; }
+            0% { opacity: 0.5; }
             100% { opacity: 1; }
         }
 
-        /* 月亮 */
+        /* --- 月亮 --- */
         .moon {
             position: absolute;
-            top: 15%;
-            right: 25%;
-            width: 60px;
-            height: 60px;
+            top: 12%;
+            right: 30%;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            box-shadow: 0 0 30px 10px rgba(135, 206, 250, 0.6), inset -15px 0 0 0 #b0d4f1;
-            background: transparent;
-            transform: rotate(-20deg);
+            box-shadow: 
+                inset -12px 0 0 0 #c4e3ff, /* 月亮的亮面 */
+                0 0 40px 10px rgba(135, 206, 250, 0.5), /* 外光暈 */
+                0 0 80px 20px rgba(135, 206, 250, 0.2);
+            transform: rotate(-15deg);
+            z-index: 2;
         }
 
-        /* 流星群 */
+        /* --- 流星群 (帶尾巴) --- */
         .meteor {
             position: absolute;
-            width: 2px;
+            width: 150px; /* 流星長度 */
             height: 2px;
-            background: #fff;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
             border-radius: 50%;
-            box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8), 0 0 20px 5px rgba(135, 206, 250, 0.6);
+            opacity: 0;
+            transform: rotate(-35deg); /* 流星角度 */
             animation: shoot linear infinite;
+            z-index: 3;
         }
 
-        /* 設定每顆流星不同的位置與速度 */
-        .meteor:nth-child(1) { top: 10%; left: 80%; animation-duration: 3s; animation-delay: 0s; }
-        .meteor:nth-child(2) { top: 30%; left: 60%; animation-duration: 4s; animation-delay: 1s; }
-        .meteor:nth-child(3) { top: 5%; left: 40%; animation-duration: 2.5s; animation-delay: 2s; }
-        .meteor:nth-child(4) { top: 50%; left: 90%; animation-duration: 5s; animation-delay: 0.5s; }
-        .meteor:nth-child(5) { top: 20%; left: 20%; animation-duration: 3.5s; animation-delay: 3s; }
+        /* 設定不同流星的起點與時間 */
+        .meteor:nth-child(1) { top: 5%; left: 70%; animation-duration: 3s; animation-delay: 0s; }
+        .meteor:nth-child(2) { top: 25%; left: 90%; animation-duration: 4.5s; animation-delay: 1.5s; }
+        .meteor:nth-child(3) { top: 15%; left: 40%; animation-duration: 2.8s; animation-delay: 3s; }
+        .meteor:nth-child(4) { top: 45%; left: 80%; animation-duration: 5s; animation-delay: 0.8s; }
+        .meteor:nth-child(5) { top: 10%; left: 20%; animation-duration: 3.5s; animation-delay: 4s; }
 
-        /* 流星劃過動畫 */
         @keyframes shoot {
-            0% {
-                transform: translate(0, 0) rotate(-45deg);
-                opacity: 1;
+            0% { 
+                transform: translate(0, 0) rotate(-35deg); 
+                opacity: 0; 
             }
-            100% {
-                transform: translate(-600px, 600px) rotate(-45deg);
-                opacity: 0;
+            10% { opacity: 1; }
+            100% { 
+                transform: translate(-800px, 600px) rotate(-35deg); 
+                opacity: 0; 
             }
         }
 
-        /* 山脈與地平線 */
+        /* --- 山脈與地平線 --- */
         .mountains {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 45%;
+            height: 50%;
+            z-index: 4;
         }
 
-        /* 利用 clip-path 繪製多層山脈 */
+        /* 地平線暖光 */
+        .glow {
+            position: absolute;
+            bottom: 25%;
+            left: 0;
+            width: 100%;
+            height: 20%;
+            background: radial-gradient(ellipse at bottom, rgba(255, 180, 100, 0.3) 0%, transparent 70%);
+            filter: blur(15px);
+            z-index: 1;
+        }
+
         .mountain-layer {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #0a1c2e;
         }
 
+        /* 第1層 (最遠) */
         .layer-1 {
-            background: #143a52;
-            clip-path: polygon(0% 100%, 0% 70%, 15% 50%, 30% 65%, 45% 40%, 65% 60%, 80% 45%, 100% 60%, 100% 100%);
-            opacity: 0.8;
+            background: #2a4b6e;
+            clip-path: polygon(0% 100%, 0% 70%, 15% 50%, 30% 65%, 45% 40%, 60% 55%, 75% 45%, 90% 60%, 100% 50%, 100% 100%);
+            opacity: 0.7;
         }
-
+        /* 第2層 */
         .layer-2 {
-            background: #0c2537;
-            clip-path: polygon(0% 100%, 0% 80%, 10% 60%, 25% 75%, 40% 55%, 55% 70%, 75% 50%, 90% 65%, 100% 55%, 100% 100%);
+            background: #1c3450;
+            clip-path: polygon(0% 100%, 0% 80%, 10% 65%, 25% 75%, 40% 55%, 55% 70%, 70% 50%, 85% 65%, 100% 55%, 100% 100%);
         }
-
+        /* 第3層 */
         .layer-3 {
-            background: #061420;
-            clip-path: polygon(0% 100%, 0% 90%, 20% 75%, 35% 85%, 50% 70%, 70% 85%, 85% 75%, 100% 85%, 100% 100%);
+            background: #0f2136;
+            clip-path: polygon(0% 100%, 0% 85%, 20% 70%, 35% 85%, 50% 65%, 65% 80%, 80% 70%, 100% 85%, 100% 100%);
+        }
+        /* 第4層 (最近，最深色) */
+        .layer-4 {
+            background: #06101c;
+            clip-path: polygon(0% 100%, 0% 95%, 15% 85%, 30% 95%, 45% 80%, 60% 90%, 75% 85%, 90% 95%, 100% 90%, 100% 100%);
         }
 
-        /* 地平線的暖色微光 */
-        .glow {
-            position: absolute;
-            bottom: 40%;
-            left: 0;
-            width: 100%;
-            height: 15%;
-            background: radial-gradient(ellipse at bottom, rgba(242, 166, 90, 0.4) 0%, transparent 70%);
-            filter: blur(10px);
-        }
-
-        /* 前景松樹 */
+        /* --- 前景松樹 --- */
         .tree {
             position: absolute;
             bottom: 0;
-            right: 15%;
+            right: 10%;
             width: 0;
             height: 0;
-            border-left: 30px solid transparent;
-            border-right: 30px solid transparent;
-            border-bottom: 120px solid #03080e;
+            border-left: 40px solid transparent;
+            border-right: 40px solid transparent;
+            border-bottom: 160px solid #03080e;
+            z-index: 5;
         }
-        
         .tree::before {
             content: '';
             position: absolute;
-            bottom: -160px;
-            left: -20px;
+            bottom: -200px;
+            left: -25px;
             width: 0;
             height: 0;
-            border-left: 20px solid transparent;
-            border-right: 20px solid transparent;
-            border-bottom: 80px solid #03080e;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 100px solid #03080e;
         }
-
         .tree-2 {
             position: absolute;
             bottom: 0;
-            right: 30%;
+            right: 25%;
             width: 0;
             height: 0;
-            border-left: 20px solid transparent;
-            border-right: 20px solid transparent;
-            border-bottom: 80px solid #03080e;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 100px solid #03080e;
+            z-index: 5;
         }
     </style>
 </head>
@@ -192,6 +206,7 @@
         <div class="mountain-layer layer-1"></div>
         <div class="mountain-layer layer-2"></div>
         <div class="mountain-layer layer-3"></div>
+        <div class="mountain-layer layer-4"></div>
     </div>
 
     <!-- 前景樹木 -->
