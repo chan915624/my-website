@@ -5,36 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>給最可愛的妳</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            overflow: hidden;
-        }
+        
+{
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          overflow: hidden;}
 
         body {
             width: 100vw;
             height: 100vh;
             background: linear-gradient(to bottom, #ffb6c1 0%, #ffc0cb 30%, #e6e6fa 70%, #fffacd 100%);
             position: relative;
-            /* 讓愛心在畫面中垂直置中 */
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
-        /* --- 使用標準的藍色愛心符號 💙 --- */
+        /* --- 標準的藍色愛心符號 💙 --- /
         .big-heart {
-            font-size: 100px; /* 控制愛心大小 */
+            position: absolute;
+            left: 15%;       / 回到左側 /
+            top: 8%;         / 回到上方 /
+            font-size: 80px; / 稍微縮小一點，看起來更精緻 */
             animation: heartbeat 1.5s ease-in-out infinite;
             user-select: none;
-            /* 加上傾斜角度 */
             transform: rotate(-15deg);
-            /* 加一點發光效果 */
             filter: drop-shadow(0 8px 15px rgba(135, 206, 235, 0.6));
         }
 
-        /* 心跳動畫 (保留傾斜角度) */
         @keyframes heartbeat {
             0% { transform: rotate(-15deg) scale(1); }
             50% { transform: rotate(-15deg) scale(1.15); }
@@ -43,7 +39,6 @@
     </style>
 </head>
 <body>
-    <!-- 這裡使用的是藍色愛心 Emoji 💙 -->
     <div class="big-heart">💙</div>
 </body>
 </html>
