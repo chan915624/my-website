@@ -5,39 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>給最可愛的妳</title>
     <style>
-        
-{
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;/* 移除了 overflow: hidden，避免被強制卡在邊緣 */}
+        /* 徹底拔除 * 的 overflow: hidden 和 box-sizing /
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            / 修正 iOS 100vh 問題，改用 fixed 定位背景 /
+            position: fixed; 
+            overflow: hidden;
+        }
 
         body {
-            width: 100vw;
-            height: 100vh;
             background: linear-gradient(to bottom, #ffb6c1 0%, #ffc0cb 30%, #e6e6fa 70%, #fffacd 100%);
-            position: relative;
         }
 
-        /* --- 左上角的文字信封 💌 --- /
+        / --- 左上角的斜信封 --- /
         .envelope {
             position: absolute;
-            / 改用絕對像素，不再用百分比，位置絕對精準 /
-            left: 60px;       / 距離左邊 60px /
-            top: 150px;       / 距離頂部 150px，保證避開手機網址列 /
-            font-size: 80px;  / 大小 /
+            / 改用絕對像素，強制離開邊緣 /
+            left: 50px;
+            top: 150px;
+            font-size: 80px;
+            / 強制旋轉，並加上 will-change 讓 iOS 乖乖聽話 /
+            transform: rotate(-20deg); 
+            will-change: transform;
+            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.15));
             user-select: none;
             line-height: 1;
-        }
-
-        / 強制讓 Emoji 旋轉，並加上陰影 /
-        .envelope span {
-            display: inline-block;   / 這行是關鍵，讓它可以被旋轉 /
-            transform: rotate(-15deg); / 向左傾斜 15 度 */
-            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.15));
+            / 確保不會被切掉 */
+            z-index: 999;
         }
     </style>
 </head>
 <body>
-    <div class="envelope"><span>💌</span></div>
+    <!-- 直接在這裡放 Emoji，不加 span，減少變數 -->
+    <div class="envelope">💌</div>
 </body>
 </html>
