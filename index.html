@@ -19,26 +19,44 @@
             position: relative;
         }
 
-        /* --- 標準的藍色愛心符號 💙 --- /
+        /* --- 用 CSS 畫出的完美淡藍色愛心 --- /
         .big-heart {
             position: absolute;
-            left: 15%;       / 回到左側 /
-            top: 8%;         / 回到上方 /
-            font-size: 80px; / 稍微縮小一點，看起來更精緻 */
-            animation: heartbeat 1.5s ease-in-out infinite;
-            user-select: none;
+            left: 20%;
+            top: 15%;
+            width: 150px;    / 愛心大小 /
+            height: 150px;
+            / 🌟 固定向左傾斜 15 度，拿掉跳動動畫 /
             transform: rotate(-15deg);
-            filter: drop-shadow(0 8px 15px rgba(135, 206, 235, 0.6));
+            transform-origin: center;
         }
 
-        @keyframes heartbeat {
-            0% { transform: rotate(-15deg) scale(1); }
-            50% { transform: rotate(-15deg) scale(1.15); }
-            100% { transform: rotate(-15deg) scale(1); }
+        .big-heart::before,
+        .big-heart::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 75px;
+            height: 120px;
+            background: #87CEEB; / 淡藍色 */
+            border-radius: 75px 75px 0 0;
+            box-shadow: 0 10px 20px rgba(135, 206, 235, 0.4);
+        }
+
+        .big-heart::before {
+            left: 75px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .big-heart::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
         }
     </style>
 </head>
 <body>
-    <div class="big-heart">💙</div>
+    <div class="big-heart"></div>
 </body>
 </html>
