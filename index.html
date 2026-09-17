@@ -15,108 +15,27 @@
         body {
             width: 100vw;
             height: 100vh;
-            /* 粉嫩天空漸層背景 /
             background: linear-gradient(to bottom, #ffb6c1 0%, #ffc0cb 30%, #e6e6fa 70%, #fffacd 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Microsoft JhengHei', sans-serif;
-        }
-
-        / --- 容器：用來放信封和信紙 --- /
-        .card-container {
             position: relative;
-            width: 80vw;
-            max-width: 300px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transform: rotate(-3deg); / 微微傾斜 /
         }
 
-        / --- 信封主體 --- /
+        /* --- 左上角的文字信封 💌 --- /
         .envelope {
-            width: 100%;
-            height: 180px;
-            background: #fdf2f8; / 淡粉白 /
-            border-radius: 10px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-            position: relative;
-            overflow: hidden;
-            z-index: 2;
-        }
-
-        / 信封底部的三角形折線 /
-        .envelope::before {
-            content: "";
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 0;
-            border-left: 150px solid transparent;
-            border-right: 150px solid transparent;
-            border-bottom: 100px solid #fce7f3;
-            z-index: 3;
+            left: 15%;       / 距離左邊 15% /
+            top: 10%;        / 距離上面 10% /
+            font-size: 120px; / 信封大小 /
+            / 向左傾斜 15 度 /
+            transform: rotate(-15deg);
+            / 加上柔和陰影 */
+            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.15));
+            user-select: none;
+            line-height: 1;
         }
-
-        / --- 打開的封蓋 --- /
-        .envelope-flap {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 0;
-            border-left: 150px solid transparent;
-            border-right: 150px solid transparent;
-            border-top: 110px solid #f9a8d4;
-            transform-origin: top;
-            transform: rotateX(180deg); / 往後翻開 /
-            z-index: 1;
-            border-radius: 10px 10px 0 0;
-        }
-
-        / --- 露出的信紙 --- /
-        .letter {
-            position: absolute;
-            top: 20px;
-            width: 80%;
-            height: auto;
-            background: #ffffff;
-            border-radius: 5px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            z-index: 1; / 放在信封後面 */
-            padding: 20px;
-            text-align: center;
-        }
-
-        .letter h2 {
-            color: #d63384;
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-        }
-
-        .letter p {
-            color: #ff69b4;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
     </style>
 </head>
 <body>
-    <div class="card-container">
-        <!-- 露出的信紙 -->
-        <div class="letter">
-            <h2>親愛的寶貝</h2>
-            <p>這是一封<br>專屬給妳的信 💖</p>
-        </div>
-
-        <!-- 信封主體 -->
-        <div class="envelope">
-            <!-- 往後翻開的封蓋 -->
-            <div class="envelope-flap"></div>
-        </div>
-    </div>
+    <!-- 直接使用文字信封符號 -->
+    <div class="envelope">💌</div>
 </body>
 </html>
