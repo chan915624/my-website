@@ -3,23 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>給薯條</title>
+<title>給你的信</title>
 <style>
-  body { margin:0; height:100vh; display:flex; justify-content:center; align-items:center;
+  body { margin:0; height:100vh;
          background:linear-gradient(135deg,#ffdde1,#ee9ca7); font-family:sans-serif; }
-  .screen { position:absolute; text-align:center; transition:opacity .5s; }
-  #letter { opacity:0; pointer-events:none; }
-  .env { font-size:120px; cursor:pointer; animation:pulse 1.5s infinite; }
-  @keyframes pulse { 50% { transform:scale(1.1); } }
+
+  .screen { position:absolute; transition:opacity .5s; }
+  #letter { opacity:0; pointer-events:none;
+            top:0; left:0; width:100%; height:100%;
+            display:flex; flex-direction:column;
+            justify-content:center; align-items:center; }
+
+  /* 信封區塊：固定在左上角 /
+  #envelope { top:20px; left:20px; text-align:center; }
+
+  .env { font-size:50px; }              / ← 縮小了 */
+  .hint { margin-top:6px; font-size:13px; color:#fff; cursor:pointer; letter-spacing:1px; }
+
   #letter h1 { font-size:56px; color:#e63946; letter-spacing:8px; }
-  button { padding:10px 24px; border:none; border-radius:20px; background:#e63946; color:#fff; cursor:pointer; }
+  button { padding:10px 24px; border:none; border-radius:20px;
+           background:#e63946; color:#fff; cursor:pointer; }
 </style>
 </head>
 <body>
 
   <div class="screen" id="envelope">
-    <div class="env" onclick="openLetter()">💌</div>
-    <p>點一下有驚喜</p>
+    <div class="env">💌</div>
+    <p class="hint" onclick="openLetter()">點擊打開</p>
   </div>
 
   <div class="screen" id="letter">
@@ -47,3 +57,7 @@
 
 </body>
 </html>
+﻿
+ni
+ni_ni_ni_ni_ni_ni_ni
+ 
