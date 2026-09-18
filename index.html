@@ -24,7 +24,7 @@
   .quote { font-size:22px; color:#e63946; text-align:center; max-width:400px;
            line-height:1.8; padding:30px; background:#fff; border-radius:15px;
            box-shadow:0 15px 40px rgba(0,0,0,.15); }
-  .heart-btn { font-size:100px; color:#e63946; user-select:none; }
+  .heart-btn { font-size:100px; color:#e63946; user-select:none; cursor:pointer; }
   .count { font-size:28px; color:#e63946; margin-top:20px; }
   .done  { font-size:22px; color:#e63946; text-align:center; line-height:1.8; }
   .sublabel{ font-size:14px; color:#999; margin-top:10px; }
@@ -56,17 +56,17 @@
 </div>
 
 <div class="screen" id="game-screen">
-  <div class="heart-btn" id="heart">🩷</div>
-  <div class="count" id="count">0 / 520</div>
+  <div class="heart-btn" id="heart" onclick="startAuto()">🩷</div>
+  <div class="count" id="count">點一下心心</div>
   <div class="done" id="done" style="display:none;">
     恭喜！集滿 520 次<br>你可以讓他做一件事
   </div>
   <button onclick="back()">返回</button>
-photo</div>
+</div>
 
 <div class="screen" id="photo-screen">
   < img class="photo" src="photo.png">
-  < img class="photo" src=".jpg">
+  < img class="photo" src="photo.jpg">
   <button onclick="back()">返回</button>
 </div>
 
@@ -126,16 +126,21 @@ function back() {
   show('grid-screen');
 }
 
-/* 520 自動點擊 */
+/* 520：進來只顯示心心，點一下才開始跳 */
 function open520() {
   count = 0; isDone = false;
-  document.getElementById('count').textContent = '0 / 520';
+  document.getElementById('count').textContent = '點一下心心';
   document.getElementById('count').style.display = 'block';
   document.getElementById('heart').style.display = 'block';
   document.getElementById('done').style.display = 'none';
   show('game-screen');
+}
 
-  if (autoTimer) clearInterval(autoTimer);
+function startAuto() {
+  if (isDone) return;
+  if (autoTimer) return;
+  document.getElementById('count').textContent = '0 / 520';
+
   autoTimer = setInterval(function() {
     if (isDone) { clearInterval(autoTimer); return; }
     count++;
@@ -147,7 +152,7 @@ function open520() {
       document.getElementById('heart').style.display = 'none';
       document.getElementById('done').style.display = 'block';
     }
-  }, 50);
+  }, 500);
 }
 
 /* 生日 */
