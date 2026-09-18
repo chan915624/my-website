@@ -24,8 +24,9 @@
   .quote { font-size:22px; color:#e63946; text-align:center; max-width:400px;
            line-height:1.8; padding:30px; background:#fff; border-radius:15px;
            box-shadow:0 15px 40px rgba(0,0,0,.15); }
-  .heart-btn { font-size:100px; color:#e63946; cursor:pointer; user-select:none; }
+  .heart-btn { font-size:100px; color:#e63946; user-select:none; }
   .count { font-size:28px; color:#e63946; margin-top:20px; }
+  .done  { font-size:22px; color:#e63946; text-align:center; line-height:1.8; }
   .sublabel{ font-size:14px; color:#999; margin-top:10px; }
   .photo { max-width:90%; max-height:35vh; border-radius:15px;
            margin:10px 0; box-shadow:0 15px 40px rgba(0,0,0,.25); }
@@ -55,14 +56,17 @@
 </div>
 
 <div class="screen" id="game-screen">
-  <div class="heart-btn" onclick="tap()">🩷</div>
+  <div class="heart-btn" id="heart">🩷</div>
   <div class="count" id="count">0 / 520</div>
+  <div class="done" id="done" style="display:none;">
+    恭喜！集滿 520 次<br>你可以讓他做一件事
+  </div>
   <button onclick="back()">返回</button>
-</div>
+photo</div>
 
 <div class="screen" id="photo-screen">
-  <img class="photo" src="photo.png">
-  <img class="photo" src="photo.jpg">
+  < img class="photo" src="photo.png">
+  < img class="photo" src=".jpg">
   <button onclick="back()">返回</button>
 </div>
 
@@ -91,7 +95,10 @@
 </div>
 
 <script>
-var timer = null, count = 0, isDone = false;
+var timer = null;
+var autoTimer = null;
+var count = 0;
+var isDone = false;
 
 var quotes = [
   "你是我今天最想見到的人。","遇見你，是我最幸運的事。","有你在，每天都變得很特別。",
@@ -112,26 +119,38 @@ function show(id) {
   document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
   document.getElementById(id).classList.add('active');
 }
+
 function back() {
   if (timer) { clearInterval(timer); timer = null; }
+  if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
   show('grid-screen');
 }
 
+/* 520 自動點擊 */
 function open520() {
   count = 0; isDone = false;
   document.getElementById('count').textContent = '0 / 520';
+  document.getElementById('count').style.display = 'block';
+  document.getElementById('heart').style.display = 'block';
+  document.getElementById('done').style.display = 'none';
   show('game-screen');
-}
-function tap() {
-  if (isDone) return;
-  count++;
-  document.getElementById('count').textContent = count + ' / 520';
-  if (count >= 520) {
-    isDone = true;
-    document.getElementById('count').textContent = '恭喜！集滿 520 次，你可以讓他做一件事';
-  }
+
+  if (autoTimer) clearInterval(autoTimer);
+  autoTimer = setInterval(function() {
+    if (isDone) { clearInterval(autoTimer); return; }
+    count++;
+    document.getElementById('count').textContent = count + ' / 520';
+    if (count >= 520) {
+      isDone = true;
+      clearInterval(autoTimer);
+      document.getElementById('count').style.display = 'none';
+      document.getElementById('heart').style.display = 'none';
+      document.getElementById('done').style.display = 'block';
+    }
+  }, 50);
 }
 
+/* 生日 */
 function openBirthday() {
   show('birthday-screen');
   updateBD();
@@ -149,12 +168,14 @@ function updateBD() {
     pad(Math.floor(d%3600/60))+':'+pad(d%60);
 }
 
+/* 情話 */
 function openQuote() { nextQuote(); show('quote-screen'); }
 function nextQuote() {
   document.getElementById('quote-text').textContent =
     quotes[Math.floor(Math.random()*quotes.length)];
 }
 
+/* 在一起 */
 function openDays() {
   show('days-screen');
   updateDays();
@@ -169,6 +190,7 @@ function updateDays() {
     pad(Math.floor(d%3600/60))+':'+pad(d%60);
 }
 
+/* 跨年 */
 function openNewYear() {
   show('newyear-screen');
   updateNY();
