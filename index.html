@@ -8,88 +8,261 @@
   body { margin:0; min-height:100vh;
          background:linear-gradient(135deg,#ffdde1,#ee9ca7); font-family:sans-serif; }
 
-  .screen { position:absolute; transition:opacity .5s; }
-
-  #letter { opacity:0; pointer-events:none;
-            top:0; left:0; width:100%; min-height:100vh;
+  .screen { position:absolute; top:0; left:0;
+            width:100%; min-height:100vh;
             display:flex; flex-direction:column;
             justify-content:center; align-items:center;
-            padding:30px 20px; box-sizing:border-box; }
+            padding:30px 20px; box-sizing:border-box;
+            transition:opacity .5s; opacity:0; pointer-events:none; }
+  .screen.active { opacity:1; pointer-events:auto; }
 
-  #envelope { top:20px; left:20px; text-align:center; }
-  .env { font-size:50px; }
-  .hint { margin-top:6px; font-size:13px; color:#87CEEB; cursor:pointer; letter-spacing:1px; }
-
-  #letter p {
-    font-size:20px;
-    color:#e63946;
-    line-height:1.9;
-    text-align:center;
+  .grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
     max-width:500px;
-    margin-bottom:20px;
+    width:100%;
   }
-
-  .link {
-    color:#4A90D9;
-    text-decoration:underline;
+  .box {
+    background:#fff;
+    border-radius:12px;
+    height:120px;
+    display:flex; justify-content:center; align-items:center;
+    font-size:22px; color:#e63946;
+    box-shadow:0 6px 15px rgba(0,0,0,.1);
     cursor:pointer;
-    font-weight:bold;
+    overflow:hidden;
+    text-align:center;
+    padding:6px;
+  }
+  .box:nth-child(7) { grid-column:1 / span 2; }
+
+  #photo-screen img {
+    max-width:90%; max-height:35vh;
+    border-radius:15px; margin:10px 0;
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
   }
 
-  button { margin-top:10px; padding:10px 24px; border:none; border-radius:20px;
-           background:#ffffff; color:#000000; cursor:pointer; font-size:15px; }
+  .big-num { font-size:80px; color:#e63946; font-weight:bold; }
+  .label   { font-size:20px; color:#e63946; margin-top:10px; letter-spacing:2px; }
+  .sublabel{ font-size:14px; color:#999; margin-top:10px; }
 
-  #photo-screen { opacity:0; pointer-events:none;
-                  top:0; left:0; width:100%; min-height:100vh;
-                  display:flex; flex-direction:column;
-                  justify-content:center; align-items:center;
-                  padding:20px; box-sizing:border-box; }
+  .time-box { display:flex; gap:20px; color:#e63946; text-align:center; }
+  .time-box .num { font-size:40px; font-weight:bold; }
+  .time-box .unit { font-size:13px; color:#999; margin-top:5px; }
 
-  #photo-screen img { max-width:90%; max-height:70vh; border-radius:15px;
-                      box-shadow:0 15px 40px rgba(0,0,0,.25); }
+  .quote {
+    font-size:22px; color:#e63946; text-align:center;
+    max-width:400px; line-height:1.8; padding:30px;
+    background:#fff; border-radius:15px;
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
+  }
+
+  .heart-btn {
+    font-size:100px; color:#e63946;
+    cursor:pointer; user-select:none;
+    transition:transform .15s;
+  }
+  .heart-btn:active { transform:scale(1.3); }
+  .count { font-size:28px; color:#e63946; margin-top:20px; letter-spacing:2px; }
+  .done  { font-size:22px; color:#e63946; text-align:center; line-height:1.8; }
+
+  .newyear-box { display:flex; gap:16px; color:#e63946; text-align:center; }
+  .newyear-box .num { font-size:36px; font-weight:bold; }
+  .newyear-box .unit { font-size:12px; color:#999; margin-top:5px; }
+
+  button { margin-top:20px; padding:10px 24px; border:none; border-radius:20px;
+           background:#fff; color:#000; cursor:pointer; font-size:15px; }
 </style>
 </head>
 <body>
 
-  <div class="screen" id="envelope">
-    <div class="env">✉️</div>
-    <p class="hint" onclick="openLetter()">點擊打開</p>
+  <div class="screen active" id="grid-screen">
+    <div class="grid">
+      <div class="box" onclick="openLetter()">✉️</div>
+      <div class="box" onclick="open520()">♡ ʾʾ</div>
+      <div class="box" onclick="openPhoto()">照片</div>
+      <div class="box" onclick="openBirthday()">生日</div>
+      <div class="box" onclick="openQuote()">情話</div>
+      <div class="box" onclick="openDays()">在一起</div>
+      <div class="box" onclick="openNewYear()">跨年倒數</div>
+    </div>
   </div>
 
-  <div class="screen" id="letter">
-    <p>
+  <div class="screen" id="letter-screen">
+    <p style="font-size:20px;color:#e63946;line-height:1.9;text-align:center;max-width:500px;">
       我們9月9號開始一整天貼貼，<br>
-      雖然我們都沒有說話，但是感覺你很可愛。<br>
-      <span class="link" onclick="openPhoto()">點擊看圖片</span>
-    </p>
-    <button onclick="back()">返回</button>
+      雖然我們都沒有說話，但是感覺你很可愛。
+    </p >
+    <button onclick="backToGrid()">返回</button>
+  </div>
+
+  <div class="screen" id="game-screen">
+    <div class="heart-btn" id="heart" onclick="tap()">♡</div>
+    <div class="count" id="count">0 / 520</div>
+    <div class="done" id="done" style="display:none;">
+      恭喜！集滿 520 次 💗<br>
+      你可以讓他做一件事
+    </div>
+    <button onclick="backToGrid()">返回</button>
   </div>
 
   <div class="screen" id="photo-screen">
-    <img src="photo.jpg" alt="照片">
-    <button onclick="backToLetter()">返回</button>
+    < img src="photo.png" alt="照片1">
+    < img src="photo.jpg" alt="照片2">
+    <button onclick="backToGrid()">返回</button>
+  </div>
+
+  <div class="screen" id="birthday-screen">
+    <div class="big-num" id="bday-days">0</div>
+    <div class="label">天</div>
+    <div class="sublabel">距離你的生日（9/15）</div>
+    <button onclick="backToGrid()">返回</button>
+  </div>
+
+  <div class="screen" id="quote-screen">
+    <div class="quote" id="quote-text">💌</div>
+    <button onclick="nextQuote()">換一句</button>
+    <button onclick="backToGrid()">返回</button>
+  </div>
+
+  <div class="screen" id="days-screen">
+    <div class="time-box">
+      <div><div class="num" id="d">0</div><div class="unit">天</div></div>
+      <div><div class="num" id="h">0</div><div class="unit">時</div></div>
+      <div><div class="num" id="m">0</div><div class="unit">分</div></div>
+      <div><div class="num" id="s">0</div><div class="unit">秒</div></div>
+    </div>
+    <div class="sublabel">從 2026/9/9 開始</div>
+    <button onclick="backToGrid()">返回</button>
+  </div>
+
+  <div class="screen" id="newyear-screen">
+    <div class="newyear-box">
+      <div><div class="num" id="ny-d">0</div><div class="unit">天</div></div>
+      <div><div class="num" id="ny-h">0</div><div class="unit">時</div></div>
+      <div><div class="num" id="ny-m">0</div><div class="unit">分</div></div>
+      <div><div class="num" id="ny-s">0</div><div class="unit">秒</div></div>
+    </div>
+    <div class="sublabel">距離 2027/1/1</div>
+    <button onclick="backToGrid()">返回</button>
   </div>
 
 <script>
-  var envelope = document.getElementById('envelope');
-  var letter   = document.getElementById('letter');
-  var photo    = document.getElementById('photo-screen');
+  var timer = null, count = 0, max = 520, isDone = false;
 
-  function show(el)  { el.style.opacity = 1; el.style.pointerEvents = 'auto'; }
-  function hide(el)  { el.style.opacity = 0; el.style.pointerEvents = 'none'; }
+  var quotes = [
+    "你是我今天最想見到的人。",
+    "遇見你，是我最幸運的事。",
+    "有你在，每天都變得很特別。",
+    "你笑起來的樣子，我記得很清楚。",
+    "想牽著你的手，走很久很久。",
+    "你不在的時候，時間過得好慢。",
+    "喜歡你，是我每天都會做的事。",
+    "你是我的小確幸。",
+    "只要你在，我就很安心。",
+    "謝謝你願意當我的女朋友。",
+    "你比昨天更好看。",
+    "想跟你一起看很多次日落。",
+    "我喜歡你，比昨天多一點，比明天少一點。",
+    "你是我心裡最軟的那一塊。",
+    "未來的每一天，都想有你。",
+    "你的一句話，就能讓我開心一整天。",
+    "喜歡你這件事，我從來沒想過要停。",
+    "你是我平淡生活裡的光。",
+    "每次看到你，心跳都會漏一拍。",
+    "我想把最好的都留給你。",
+    "你笑的時候，全世界都亮了。",
+    "想陪你走過每一個春夏秋冬。",
+    "你是我做過最美好的決定。",
+    "不管多遠，我都想走向你。",
+    "你是我藏在心裡的甜。",
+    "只要有你在，去哪裡都好。",
+    "你是我每天醒來的理由。",
+    "你不需要做什麼，光是存在就很美好。",
+    "我喜歡你，沒有理由，就是喜歡。",
+    "想把你寫進我的每一個未來裡。"
+  ];
 
-  function openLetter() {
-    hide(envelope); show(letter);
+  function show(id) {
+    document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+    document.getElementById(id).classList.add('active');
   }
-  function back() {
-    hide(letter); hide(photo);
-    show(envelope);
+
+  function openLetter() { show('letter-screen'); }
+
+  function open520() {
+    count = 0; isDone = false;
+    document.getElementById('count').textContent = '0 / ' + max;
+    document.getElementById('count').style.display = 'block';
+    document.getElementById('heart').style.display = 'block';
+    document.getElementById('done').style.display = 'none';
+    show('game-screen');
   }
-  function openPhoto() {
-    hide(letter); show(photo);
+  function tap() {
+    if (isDone) return;
+    count++;
+    document.getElementById('count').textContent = count + ' / ' + max;
+    if (count >= max) {
+      isDone = true;
+      document.getElementById('heart').style.display = 'none';
+      document.getElementById('count').style.display = 'none';
+      document.getElementById('done').style.display = 'block';
+    }
   }
-  function backToLetter() {
-    hide(photo); show(letter);
+
+  function openPhoto() { show('photo-screen'); }
+
+  function openBirthday() {
+    var today = new Date(); today.setHours(0,0,0,0);
+    var month = 9, day = 15;
+    var bday = new Date(today.getFullYear(), month - 1, day);
+    if (bday < today) bday = new Date(today.getFullYear() + 1, month - 1, day);
+    var diff = Math.ceil((bday - today) / (1000 * 60 * 60 * 24));
+    document.getElementById('bday-days').textContent = diff;
+    show('birthday-screen');
+  }
+
+  function openQuote() { nextQuote(); show('quote-screen'); }
+  function nextQuote() {
+    var i = Math.floor(Math.random() * quotes.length);
+    document.getElementById('quote-text').textContent = quotes[i];
+  }
+
+  function openDays() {
+    show('days-screen'); updateTime();
+    if (timer) clearInterval(timer);
+    timer = setInterval(updateTime, 1000);
+  }
+  function updateTime() {
+    var start = new Date(2026, 8, 9, 0, 0, 0);
+    var now   = new Date();
+    var diff  = Math.floor((now - start) / 1000);
+    document.getElementById('d').textContent = Math.floor(diff / 86400);
+    document.getElementById('h').textContent = Math.floor((diff % 86400) / 3600);
+    document.getElementById('m').textContent = Math.floor((diff % 3600) / 60);
+    document.getElementById('s').textContent = diff % 60;
+  }
+
+  function openNewYear() {
+    show('newyear-screen'); updateNewYear();
+    if (timer) clearInterval(timer);
+    timer = setInterval(updateNewYear, 1000);
+  }
+  function updateNewYear() {
+    var target = new Date(2027, 0, 1, 0, 0, 0);
+    var now    = new Date();
+    var diff   = Math.floor((target - now) / 1000);
+    if (diff < 0) diff = 0;
+    document.getElementById('ny-d').textContent = Math.floor(diff / 86400);
+    document.getElementById('ny-h').textContent = Math.floor((diff % 86400) / 3600);
+    document.getElementById('ny-m').textContent = Math.floor((diff % 3600) / 60);
+    document.getElementById('ny-s').textContent = diff % 60;
+  }
+
+  function backToGrid() {
+    if (timer) { clearInterval(timer); timer = null; }
+    show('grid-screen');
   }
 </script>
 
