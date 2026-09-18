@@ -16,56 +16,32 @@
             transition:opacity .5s; opacity:0; pointer-events:none; }
   .screen.active { opacity:1; pointer-events:auto; }
 
-  .grid {
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-    max-width:500px;
-    width:100%;
-  }
-  .box {
-    background:#fff;
-    border-radius:12px;
-    height:120px;
-    display:flex; justify-content:center; align-items:center;
-    font-size:22px; color:#e63946;
-    box-shadow:0 6px 15px rgba(0,0,0,.1);
-    cursor:pointer;
-    overflow:hidden;
-    text-align:center;
-    padding:6px;
-  }
+  .grid { display:grid; grid-template-columns:1fr 1fr;
+          gap:12px; max-width:500px; width:100%; }
+  .box { background:#fff; border-radius:12px; height:120px;
+         display:flex; justify-content:center; align-items:center;
+         font-size:22px; color:#e63946;
+         box-shadow:0 6px 15px rgba(0,0,0,.1);
+         cursor:pointer; overflow:hidden; text-align:center; padding:6px; }
   .box:nth-child(7) { grid-column:1 / span 2; }
 
-  #photo-screen img {
-    max-width:90%; max-height:35vh;
-    border-radius:15px; margin:10px 0;
-    box-shadow:0 15px 40px rgba(0,0,0,.25);
-  }
+  #photo-screen img { max-width:90%; max-height:35vh;
+                      border-radius:15px; margin:10px 0;
+                      box-shadow:0 15px 40px rgba(0,0,0,.25); }
 
   .sublabel{ font-size:14px; color:#999; margin-top:10px; }
 
-  /* 數字顯示 */
-  .clock {
-    font-size:48px;
-    color:#e63946;
-    font-weight:bold;
-    letter-spacing:3px;
-    font-variant-numeric: tabular-nums;
-  }
+  .clock { font-size:40px; color:#e63946; font-weight:bold;
+           letter-spacing:2px; font-variant-numeric: tabular-nums; }
 
-  .quote {
-    font-size:22px; color:#e63946; text-align:center;
-    max-width:400px; line-height:1.8; padding:30px;
-    background:#fff; border-radius:15px;
-    box-shadow:0 15px 40px rgba(0,0,0,.15);
-  }
+  .quote { font-size:22px; color:#e63946; text-align:center;
+           max-width:400px; line-height:1.8; padding:30px;
+           background:#fff; border-radius:15px;
+           box-shadow:0 15px 40px rgba(0,0,0,.15); }
 
-  .heart-btn {
-    font-size:100px; color:#e63946;
-    cursor:pointer; user-select:none;
-    transition:transform .15s;
-  }
+  .heart-btn { font-size:100px; color:#e63946;
+               cursor:pointer; user-select:none;
+               transition:transform .15s; }
   .heart-btn:active { transform:scale(1.3); }
   .count { font-size:28px; color:#e63946; margin-top:20px; letter-spacing:2px; }
   .done  { font-size:22px; color:#e63946; text-align:center; line-height:1.8; }
@@ -100,8 +76,7 @@
     <div class="heart-btn" id="heart" onclick="tap()">♡</div>
     <div class="count" id="count">0 / 520</div>
     <div class="done" id="done" style="display:none;">
-      恭喜！集滿 520 次 💗<br>
-      你可以讓他做一件事
+      恭喜！集滿 520 次 💗<br>你可以讓他做一件事
     </div>
     <button onclick="backToGrid()">返回</button>
   </div>
@@ -112,9 +87,8 @@
     <button onclick="backToGrid()">返回</button>
   </div>
 
-  <!-- 生日 -->
   <div class="screen" id="birthday-screen">
-    <div class="clock" id="bd-clock">00:00:00</div>
+    <div class="clock" id="bd-clock">0天 00:00:00</div>
     <div class="sublabel">距離你的生日（9/15）</div>
     <button onclick="backToGrid()">返回</button>
   </div>
@@ -125,16 +99,14 @@
     <button onclick="backToGrid()">返回</button>
   </div>
 
-  <!-- 在一起 -->
   <div class="screen" id="days-screen">
-    <div class="clock" id="days-clock">00:00:00</div>
+    <div class="clock" id="days-clock">0天 00:00:00</div>
     <div class="sublabel">從 2026/9/9 開始</div>
     <button onclick="backToGrid()">返回</button>
   </div>
 
-  <!-- 跨年 -->
   <div class="screen" id="newyear-screen">
-    <div class="clock" id="ny-clock">00:00:00</div>
+    <div class="clock" id="ny-clock">0天 00:00:00</div>
     <div class="sublabel">距離 2027/1/1</div>
     <button onclick="backToGrid()">返回</button>
   </div>
@@ -143,36 +115,16 @@
   var timer = null, count = 0, max = 520, isDone = false;
 
   var quotes = [
-    "你是我今天最想見到的人。",
-    "遇見你，是我最幸運的事。",
-    "有你在，每天都變得很特別。",
-    "你笑起來的樣子，我記得很清楚。",
-    "想牽著你的手，走很久很久。",
-    "你不在的時候，時間過得好慢。",
-    "喜歡你，是我每天都會做的事。",
-    "你是我的小確幸。",
-    "只要你在，我就很安心。",
-    "謝謝你願意當我的女朋友。",
-    "你比昨天更好看。",
-    "想跟你一起看很多次日落。",
-    "我喜歡你，比昨天多一點，比明天少一點。",
-    "你是我心裡最軟的那一塊。",
-    "未來的每一天，都想有你。",
-    "你的一句話，就能讓我開心一整天。",
-    "喜歡你這件事，我從來沒想過要停。",
-    "你是我平淡生活裡的光。",
-    "每次看到你，心跳都會漏一拍。",
-    "我想把最好的都留給你。",
-    "你笑的時候，全世界都亮了。",
-    "想陪你走過每一個春夏秋冬。",
-    "你是我做過最美好的決定。",
-    "不管多遠，我都想走向你。",
-    "你是我藏在心裡的甜。",
-    "只要有你在，去哪裡都好。",
-    "你是我每天醒來的理由。",
-    "你不需要做什麼，光是存在就很美好。",
-    "我喜歡你，沒有理由，就是喜歡。",
-    "想把你寫進我的每一個未來裡。"
+    "你是我今天最想見到的人。","遇見你，是我最幸運的事。","有你在，每天都變得很特別。",
+    "你笑起來的樣子，我記得很清楚。","想牽著你的手，走很久很久。","你不在的時候，時間過得好慢。",
+    "喜歡你，是我每天都會做的事。","你是我的小確幸。","只要你在，我就很安心。",
+    "謝謝你願意當我的女朋友。","你比昨天更好看。","想跟你一起看很多次日落。",
+    "我喜歡你，比昨天多一點，比明天少一點。","你是我心裡最軟的那一塊。","未來的每一天，都想有你。",
+    "你的一句話，就能讓我開心一整天。","喜歡你這件事，我從來沒想過要停。","你是我平淡生活裡的光。",
+    "每次看到你，心跳都會漏一拍。","我想把最好的都留給你。","你笑的時候，全世界都亮了。",
+    "想陪你走過每一個春夏秋冬。","你是我做過最美好的決定。","不管多遠，我都想走向你。",
+    "你是我藏在心裡的甜。","只要有你在，去哪裡都好。","你是我每天醒來的理由。",
+    "你不需要做什麼，光是存在就很美好。","我喜歡你，沒有理由，就是喜歡。","想把你寫進我的每一個未來裡。"
   ];
 
   function pad(n) { return n < 10 ? '0' + n : n; }
@@ -206,29 +158,20 @@
 
   function openPhoto() { show('photo-screen'); }
 
-  /* 生日 */
   function openBirthday() {
-    show('birthday-screen');
-    updateBirthday();
+    show('birthday-screen'); updateBirthday();
     if (timer) clearInterval(timer);
     timer = setInterval(updateBirthday, 1000);
   }
   function updateBirthday() {
-    var now   = new Date();
-    var month = 9, day = 15;
-    var bday  = new Date(now.getFullYear(), month - 1, day, 0, 0, 0);
-    if (bday < now) bday = new Date(now.getFullYear() + 1, month - 1, day, 0, 0, 0);
-
+    var now = new Date();
+    var bday = new Date(now.getFullYear(), 8, 15, 0, 0, 0);
+    if (bday < now) bday = new Date(now.getFullYear() + 1, 8, 15, 0, 0, 0);
     var diff = Math.floor((bday - now) / 1000);
     if (diff < 0) diff = 0;
-
-    var d = Math.floor(diff / 86400);
-    var h = Math.floor((diff % 86400) / 3600);
-    var m = Math.floor((diff % 3600) / 60);
-    var s = diff % 60;
-
     document.getElementById('bd-clock').textContent =
-      d + '天 ' + pad(h) + ':' + pad(m) + ':' + pad(s);
+      Math.floor(diff/86400) + '天 ' + pad(Math.floor((diff%86400)/3600)) + ':' +
+      pad(Math.floor((diff%3600)/60)) + ':' + pad(diff%60);
   }
 
   function openQuote() { nextQuote(); show('quote-screen'); }
@@ -237,7 +180,6 @@
     document.getElementById('quote-text').textContent = quotes[i];
   }
 
-  /* 在一起 */
   function openDays() {
     show('days-screen'); updateTime();
     if (timer) clearInterval(timer);
@@ -245,17 +187,13 @@
   }
   function updateTime() {
     var start = new Date(2026, 8, 9, 0, 0, 0);
-    var now   = new Date();
-    var diff  = Math.floor((now - start) / 1000);
-    var d = Math.floor(diff / 86400);
-    var h = Math.floor((diff % 86400) / 3600);
-    var m = Math.floor((diff % 3600) / 60);
-    var s = diff % 60;
+    var now = new Date();
+    var diff = Math.floor((now - start) / 1000);
     document.getElementById('days-clock').textContent =
-      d + '天 ' + pad(h) + ':' + pad(m) + ':' + pad(s);
+      Math.floor(diff/86400) + '天 ' + pad(Math.floor((diff%86400)/3600)) + ':' +
+      pad(Math.floor((diff%3600)/60)) + ':' + pad(diff%60);
   }
 
-  /* 跨年 */
   function openNewYear() {
     show('newyear-screen'); updateNewYear();
     if (timer) clearInterval(timer);
@@ -263,15 +201,11 @@
   }
   function updateNewYear() {
     var target = new Date(2027, 0, 1, 0, 0, 0);
-    var now    = new Date();
-    var diff   = Math.floor((target - now) / 1000);
+    var diff = Math.floor((target - new Date()) / 1000);
     if (diff < 0) diff = 0;
-    var d = Math.floor(diff / 86400);
-    var h = Math.floor((diff % 86400) / 3600);
-    var m = Math.floor((diff % 3600) / 60);
-    var s = diff % 60;
     document.getElementById('ny-clock').textContent =
-      d + '天 ' + pad(h) + ':' + pad(m) + ':' + pad(s);
+      Math.floor(diff/86400) + '天 ' + pad(Math.floor((diff%86400)/3600)) + ':' +
+      pad(Math.floor((diff%3600)/60)) + ':' + pad(diff%60);
   }
 
   function backToGrid() {
