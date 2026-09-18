@@ -8,24 +8,37 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <style>
-  body { margin:0; min-height:100vh;
-         background:linear-gradient(135deg,#ffdde1,#ee9ca7); font-family:sans-serif; }
+  body { margin:0; min-height:100vh; font-family:sans-serif; overflow-x:hidden;
+         background: linear-gradient(135deg,#ffdde1,#ee9ca7,#ffc2cc,#ffdde1);
+         background-size: 400% 400%;
+         animation: bgFlow 18s ease infinite; }
+  @keyframes bgFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  .bg-heart { position:fixed; bottom:-40px; font-size:24px; opacity:.5;
+              animation: floatUp linear infinite; pointer-events:none; z-index:0; }
+  @keyframes floatUp {
+    0%   { transform: translateY(0) rotate(0deg); opacity:.5; }
+    100% { transform: translateY(-110vh) rotate(360deg); opacity:0; }
+  }
   .screen { position:absolute; top:0; left:0; width:100%; min-height:100vh;
             display:flex; flex-direction:column; justify-content:center;
             align-items:center; padding:30px 20px; box-sizing:border-box;
-            transition:opacity .5s; opacity:0; pointer-events:none; }
+            transition:opacity .5s; opacity:0; pointer-events:none; z-index:1; }
   .screen.active { opacity:1; pointer-events:auto; }
   .grid { display:grid; grid-template-columns:1fr 1fr; gap:12px;
           max-width:500px; width:100%; }
-  .box { background:#fff; border-radius:20px; height:120px;
+  .box { background:#fff; border-radius:20px; height:110px;
          display:flex; justify-content:center; align-items:center;
-         font-size:22px; color:#e63946; cursor:pointer; text-align:center;
+         font-size:20px; color:#e63946; cursor:pointer; text-align:center;
          box-shadow:0 8px 20px rgba(230,57,70,.15);
          border:2px solid #ffc2cc;
          padding:6px; overflow:hidden;
-         transition: transform .15s, box-shadow .15s; }
-  .box:active { transform: scale(0.95); box-shadow:0 4px 10px rgba(230,57,70,.25); }
-  .box:nth-child(7) { grid-column:1 / span 2; }
+         transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s; }
+  .box:active { transform: scale(0.9); box-shadow:0 4px 10px rgba(230,57,70,.25); }
+  .box:nth-child(7), .box:nth-child(8) { grid-column:1 / span 2; }
   .clock { font-size:40px; color:#e63946; font-weight:bold;
            letter-spacing:2px; font-variant-numeric: tabular-nums; }
   .quote { font-size:22px; color:#e63946; text-align:center; max-width:400px;
@@ -35,31 +48,62 @@
   .count { font-size:28px; color:#e63946; margin-top:20px; }
   .done  { font-size:22px; color:#e63946; text-align:center; line-height:1.8; }
   .sublabel{ font-size:14px; color:#999; margin-top:10px; }
-  .photo { max-width:90%; max-height:35vh; border-radius:15px;
-           margin:10px 0; box-shadow:0 15px 40px rgba(0,0,0,.25); }
   button { margin-top:20px; padding:10px 24px; border:none; border-radius:20px;
            background:#fff; color:#000; cursor:pointer; font-size:15px; }
+  .typed::after { content:'|'; color:#e63946; animation: blink 1s infinite; margin-left:2px; }
+  @keyframes blink { 50% { opacity:0; } }
+  .album { display:flex; overflow-x:auto; scroll-snap-type:x mandatory;
+           width:100%; max-width:500px; gap:12px; padding:10px 0;
+           -webkit-overflow-scrolling: touch; }
+  .album::-webkit-scrollbar { display:none; }
+  .slide { flex:0 0 85%; scroll-snap-align:center;
+           background:#fff; border-radius:18px; padding:10px;
+           box-shadow:0 10px 30px rgba(0,0,0,.15);
+           display:flex; flex-direction:column; align-items:center; }
+  .slide img { width:100%; border-radius:12px; display:block; }
+  .slide p { font-size:14px; color:#e63946; margin:10px 0 4px; }
+
+  /* 遊戲區樣式 */
+  .game-wrap { background:#fff; border-radius:20px; padding:20px;
+               max-width:420px; width:100%; text-align:center;
+               box-shadow:0 15px 40px rgba(0,0,0,.15); }
+  #bubbleArea { position:relative; height:260px; width:100%;
+                background:#ffe9ee; border-radius:15px; overflow:hidden; margin-top:10px; }
+  .bubble { position:absolute; width:50px; height:50px; border-radius:50%;
+            background:radial-gradient(circle at 30% 30%, #fff, #ff9bb0);
+            cursor:pointer; }
+  .game-btn { background:#e63946; color:#fff; border:none; border-radius:20px;
+              padding:10px 20px; margin:6px 4px; font-size:15px; cursor:pointer; }
+  .wheel { font-size:48px; margin-top:10px; }
+  .quiz-opt { display:block; width:100%; margin:8px 0; padding:12px;
+              border-radius:15px; border:2px solid #ffc2cc; background:#fff;
+              color:#e63946; font-size:16px; cursor:pointer; }
+  .quiz-opt:active { background:#ffe9ee; }
+  .slot { font-size:44px; letter-spacing:8px; margin:15px 0; }
 </style>
 </head>
 <body>
 
+<div id="bg-hearts"></div>
+
 <div class="screen active" id="grid-screen">
   <h1 style="color:#87CEEB; font-size:28px; margin-bottom:20px; font-weight:bold; text-align:center;">給薯條🫶🏻</h1>
   <div class="grid">
-    <div class="box" onclick="show('letter-screen')">信</div>
-    <div class="box" onclick="open520()">♡</div>
-    <div class="box" onclick="show('photo-screen')">照片</div>
-    <div class="box" onclick="openBirthday()">生日</div>
-    <div class="box" onclick="openQuote()">情話</div>
-    <div class="box" onclick="openDays()">在一起</div>
-    <div class="box" onclick="openNewYear()">跨年倒數</div>
+    <div class="box" onclick="show('letter-screen')">💌 信</div>
+    <div class="box" onclick="open520()">🩷 心心</div>
+    <div class="box" onclick="show('photo-screen')">📸 照片</div>
+    <div class="box" onclick="openBirthday()">🎂 生日</div>
+    <div class="box" onclick="openQuote()">💬 情話</div>
+    <div class="box" onclick="openDays()">🗓️ 在一起</div>
+    <div class="box" onclick="openNewYear()">🎆 跨年倒數</div>
+    <div class="box" onclick="show('game-menu-screen')">🎮 小遊戲</div>
   </div>
+  <button onclick="shareSite()">📤 分享給朋友</button>
 </div>
 
 <div class="screen" id="letter-screen">
-  <p style="font-size:20px;color:#e63946;line-height:1.9;text-align:center;max-width:500px;">
-    我們9月9號開始一整天貼貼，<br>雖然我們都沒有說話，但是感覺你很可愛。
-  </p >
+  <p id="letter-text" class="typed"
+     style="font-size:20px;color:#e63946;line-height:1.9;text-align:center;max-width:500px;min-height:120px;"></p>
   <button onclick="back()">返回</button>
 </div>
 
@@ -73,8 +117,10 @@
 </div>
 
 <div class="screen" id="photo-screen">
-  < img class="photo" src="photo.png">
-  < img class="photo" src="photo.jpg">
+  <div class="album">
+    <div class="slide"><img src="photo.png" alt="照片1"><p>這天你笑得好開心</p></div>
+    <div class="slide"><img src="photo.jpg" alt="照片2"><p>第一次一起出去玩</p></div>
+  </div>
   <button onclick="back()">返回</button>
 </div>
 
@@ -102,11 +148,117 @@
   <button onclick="back()">返回</button>
 </div>
 
+<!-- 小遊戲選單 -->
+<div class="screen" id="game-menu-screen">
+  <div class="game-wrap">
+    <h2 style="color:#e63946;">🎮 選一個玩</h2>
+    <button class="game-btn" onclick="show('bubble-screen')">🫧 戳泡泡</button>
+    <button class="game-btn" onclick="openQuiz()">❓ 猜謎</button>
+    <button class="game-btn" onclick="openWheel()">🎡 轉盤</button>
+    <button class="game-btn" onclick="openDraw()">🎋 抽籤</button>
+    <button class="game-btn" onclick="show('slot-screen')">🎰 拉霸機</button>
+    <br><button onclick="back()">返回</button>
+  </div>
+</div>
+
+<!-- 戳泡泡 -->
+<div class="screen" id="bubble-screen">
+  <div class="game-wrap">
+    <h2 style="color:#e63946;">🫧 戳泡泡</h2>
+    <div class="sublabel">分數：<span id="bubbleScore">0</span></div>
+    <div id="bubbleArea"></div>
+    <button onclick="back()">返回</button>
+  </div>
+</div>
+
+<!-- 猜謎 -->
+<div class="screen" id="quiz-screen">
+  <div class="game-wrap">
+    <h2 style="color:#e63946;">❓ 猜謎</h2>
+    <div id="quizQ" style="font-size:18px;color:#e63946;margin:10px 0;"></div>
+    <div id="quizOpts"></div>
+    <button onclick="back()">返回</button>
+  </div>
+</div>
+
+<!-- 轉盤 -->
+<div class="screen" id="wheel-screen">
+  <div class="game-wrap">
+    <h2 style="color:#e63946;">🎡 轉盤</h2>
+    <div class="wheel" id="wheelResult">🎁</div>
+    <button class="game-btn" onclick="spinWheel()">轉一下</button>
+    <br><button onclick="back()">返回</button>
+  </div>
+</div>
+
+<!-- 抽籤 -->
+<div class="screen" id="draw-screen">
+  <div class="game-wrap">
+    <h2 style="color:#e63946;">🎋 抽籤</h2>
+    <div class="wheel" id="drawResult">🎋</div>
+    <button class="game-btn" onclick="drawLuck()">抽一張</button>
+    <br><button onclick="back()">返回</button>
+  </div>
+</div>
+
+<!-- 拉霸機 -->
+<div class="screen" id="slot-screen">
+  <div class="game-wrap">
+    <h2 style="color:#e63946;">🎰 拉霸機</h2>
+    <div class="slot" id="slotResult">❓❓❓</div>
+    <button class="game-btn" onclick="spinSlot()">拉一下</button>
+    <br><button onclick="back()">返回</button>
+  </div>
+</div>
+
 <script>
 var timer = null;
 var autoTimer = null;
 var count = 0;
 var isDone = false;
+var tapCount = 0;
+
+/* 背景飄愛心 */
+(function makeBgHearts() {
+  var box = document.getElementById('bg-hearts');
+  var hearts = ['🩷','💗','💖','🤍','✨'];
+  for (var i = 0; i < 14; i++) {
+    var h = document.createElement('div');
+    h.className = 'bg-heart';
+    h.textContent = hearts[Math.floor(Math.random()*hearts.length)];
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.fontSize = (14 + Math.random() * 18) + 'px';
+    h.style.animationDuration = (6 + Math.random() * 8) + 's';
+    h.style.animationDelay = (Math.random() * 8) + 's';
+    box.appendChild(h);
+  }
+})();
+
+function shareSite() {
+  var url = window.location.href;
+  if (navigator.share) {
+    navigator.share({ title: '給薯條🫶🏻', url: url });
+  } else {
+    navigator.clipboard.writeText(url).then(function(){
+      alert('網址已複製！可以貼給朋友囉 🩷');
+    });
+  }
+}
+
+/* 打字機 */
+var letterFullText = '我們9月9號開始一整天貼貼，雖然我們都沒有說話，但是感覺你很可愛。';
+var typeTimer = null;
+function typeLetter() {
+  var el = document.getElementById('letter-text');
+  el.textContent = '';
+  var i = 0;
+  if (typeTimer) clearInterval(typeTimer);
+  typeTimer = setInterval(function() {
+    if (i >= letterFullText.length) { clearInterval(typeTimer); return; }
+    el.textContent += letterFullText.charAt(i);
+    i++;
+  }, 90);
+}
 
 var quotes = [
   "你是我今天最想見到的人。","遇見你，是我最幸運的事。","有你在，每天都變得很特別。",
@@ -120,35 +272,40 @@ var quotes = [
   "你是我藏在心裡的甜。","只要有你在，去哪裡都好。","你是我每天醒來的理由。",
   "你不需要做什麼，光是存在就很美好。","我喜歡你，沒有理由，就是喜歡。","想把你寫進我的每一個未來裡。"
 ];
+var quotePool = [];
 
 function pad(n){ return n<10 ? '0'+n : n; }
 
 function show(id) {
   document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
   document.getElementById(id).classList.add('active');
+  if (id === 'letter-screen') typeLetter();
+  if (id === 'bubble-screen') startBubbleGame();
 }
 
 function back() {
   if (timer) { clearInterval(timer); timer = null; }
   if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+  if (typeTimer) { clearInterval(typeTimer); typeTimer = null; }
+  if (bubbleTimer) { clearInterval(bubbleTimer); bubbleTimer = null; }
   show('grid-screen');
 }
 
-/* 520：進來只顯示心心，點一下才開始跳 */
+/* 520（含彩蛋） */
 function open520() {
-  count = 0; isDone = false;
+  count = 0; isDone = false; tapCount = 0;
   document.getElementById('count').textContent = '點一下心心';
   document.getElementById('count').style.display = 'block';
   document.getElementById('heart').style.display = 'block';
   document.getElementById('done').style.display = 'none';
   show('game-screen');
 }
-
 function startAuto() {
   if (isDone) return;
+  tapCount++;
+  if (tapCount === 10) { alert('你按那麼多下幹嘛啦 🩷'); tapCount = 0; }
   if (autoTimer) return;
   document.getElementById('count').textContent = '0 / 520';
-
   autoTimer = setInterval(function() {
     if (isDone) { clearInterval(autoTimer); return; }
     count++;
@@ -163,10 +320,8 @@ function startAuto() {
   }, 50);
 }
 
-/* 生日 */
 function openBirthday() {
-  show('birthday-screen');
-  updateBD();
+  show('birthday-screen'); updateBD();
   if (timer) clearInterval(timer);
   timer = setInterval(updateBD, 1000);
 }
@@ -181,17 +336,20 @@ function updateBD() {
     pad(Math.floor(d%3600/60))+':'+pad(d%60);
 }
 
-/* 情話 */
 function openQuote() { nextQuote(); show('quote-screen'); }
 function nextQuote() {
-  document.getElementById('quote-text').textContent =
-    quotes[Math.floor(Math.random()*quotes.length)];
+  if (quotePool.length === 0) {
+    quotePool = quotes.slice();
+    for (var i = quotePool.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = quotePool[i]; quotePool[i] = quotePool[j]; quotePool[j] = tmp;
+    }
+  }
+  document.getElementById('quote-text').textContent = quotePool.pop();
 }
 
-/* 在一起 */
 function openDays() {
-  show('days-screen');
-  updateDays();
+  show('days-screen'); updateDays();
   if (timer) clearInterval(timer);
   timer = setInterval(updateDays, 1000);
 }
@@ -203,10 +361,8 @@ function updateDays() {
     pad(Math.floor(d%3600/60))+':'+pad(d%60);
 }
 
-/* 跨年 */
 function openNewYear() {
-  show('newyear-screen');
-  updateNY();
+  show('newyear-screen'); updateNY();
   if (timer) clearInterval(timer);
   timer = setInterval(updateNY, 1000);
 }
@@ -217,6 +373,138 @@ function updateNY() {
   document.getElementById('ny').textContent =
     Math.floor(d/86400)+'天 '+pad(Math.floor(d%86400/3600))+':'+
     pad(Math.floor(d%3600/60))+':'+pad(d%60);
+}
+
+/* ====== 小遊戲 ====== */
+
+/* 戳泡泡 */
+var bubbleTimer = null;
+var bubbleScore = 0;
+function startBubbleGame() {
+  bubbleScore = 0;
+  document.getElementById('bubbleScore').textContent = '0';
+  var area = document.getElementById('bubbleArea');
+  area.innerHTML = '';
+  if (bubbleTimer) clearInterval(bubbleTimer);
+  bubbleTimer = setInterval(function() {
+    if (!document.getElementById('bubble-screen').classList.contains('active')) return;
+    var b = document.createElement('div');
+    b.className = 'bubble';
+    b.style.left = Math.random() * 80 + '%';
+    b.style.top = Math.random() * 80 + '%';
+    b.onclick = function() {
+      bubbleScore++;
+      document.getElementById('bubbleScore').textContent = bubbleScore;
+      b.remove();
+    };
+    area.appendChild(b);
+    setTimeout(function(){ if (b.parentNode) b.remove(); }, 2500);
+  }, 700);
+}
+
+/* 猜謎 */
+var quizList = [
+  { q: '我最喜歡你哪一點？', opts: ['笑起來的樣子','很可愛','全部'], a: 2 },
+  { q: '我們哪天開始在一起的？', opts: ['9/9','9/15','不知道'], a: 0 },
+  { q: '我最想跟你一起做什麼？', opts: ['看日落','牽手散步','以上都要'], a: 2 }
+];
+var quizIndex = 0;
+function openQuiz() {
+  quizIndex = 0;
+  renderQuiz();
+  show('quiz-screen');
+}
+function renderQuiz() {
+  var item = quizList[quizIndex];
+  document.getElementById('quizQ').textContent = item.q;
+  var wrap = document.getElementById('quizOpts');
+  wrap.innerHTML = '';
+  item.opts.forEach(function(opt, i) {
+    var btn = document.createElement('button');
+    btn.className = 'quiz-opt';
+    btn.textContent = opt;
+    btn.onclick = function() {
+      if (i === item.a) {
+        alert('答對了！🩷');
+      } else {
+        alert('再想想～');
+        return;
+      }
+      quizIndex++;
+      if (quizIndex >= quizList.length) {
+        alert('全部答對，你超棒！');
+        back();
+      } else {
+        renderQuiz();
+      }
+    };
+    wrap.appendChild(btn);
+  });
+}
+
+/* 轉盤 */
+var wheelItems = ['親一下','說一句情話','抱一下','唱一首歌','請喝飲料','做一件小事'];
+function openWheel() { show('wheel-screen'); }
+function spinWheel() {
+  var el = document.getElementById('wheelResult');
+  var times = 0;
+  var t = setInterval(function() {
+    el.textContent = wheelItems[Math.floor(Math.random()*wheelItems.length)];
+    times++;
+    if (times > 12) {
+      clearInterval(t);
+      el.textContent = wheelItems[Math.floor(Math.random()*wheelItems.length)];
+    }
+  }, 90);
+}
+
+/* 抽籤 */
+var drawItems = ['今天要開心','今天要抱抱','今天要說我愛你','今天要早點睡','今天要笑一個','今天要吃好吃的'];
+function openDraw() { show('draw-screen'); }
+function drawLuck() {
+  var el = document.getElementById('drawResult');
+  var times = 0;
+  var t = setInterval(function() {
+    el.textContent = '🎋 ' + drawItems[Math.floor(Math.random()*drawItems.length)];
+    times++;
+    if (times > 12) {
+      clearInterval(t);
+      el.textContent = '🎋 ' + drawItems[Math.floor(Math.random()*drawItems.length)];
+    }
+  }, 90);
+}
+
+/* 拉霸機 */
+function spinSlot() {
+  var icons = ['🩷','💗','⭐','🍀','🎁','💌'];
+  var el = document.getElementById('slotResult');
+  var times = 0;
+  var t = setInterval(function() {
+    el.textContent =
+      icons[Math.floor(Math.random()*icons.length)] +
+      icons[Math.floor(Math.random()*icons.length)] +
+      icons[Math.floor(Math.random()*icons.length)];
+    times++;
+    if (times > 15) {
+      clearInterval(t);
+      var a = icons[Math.floor(Math.random()*icons.length)];
+      var b = icons[Math.floor(Math.random()*icons.length)];
+      var c = icons[Math.floor(Math.random()*icons.length)];
+      el.textContent = a + b + c;
+      if (a === b && b === c) {
+        setTimeout(function(){ alert('中大獎！你可以許一個願望 🎉'); }, 300);
+      }
+    }
+  }, 80);
+}
+</script>
+
+<!-- 註冊 Service Worker（離線可用） -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  });
 }
 </script>
 
