@@ -43,13 +43,16 @@
     box-shadow:0 15px 40px rgba(0,0,0,.25);
   }
 
-  .big-num { font-size:80px; color:#e63946; font-weight:bold; }
-  .label   { font-size:20px; color:#e63946; margin-top:10px; letter-spacing:2px; }
   .sublabel{ font-size:14px; color:#999; margin-top:10px; }
 
-  .time-box { display:flex; gap:20px; color:#e63946; text-align:center; }
-  .time-box .num { font-size:40px; font-weight:bold; }
-  .time-box .unit { font-size:13px; color:#999; margin-top:5px; }
+  /* 數字顯示 */
+  .clock {
+    font-size:48px;
+    color:#e63946;
+    font-weight:bold;
+    letter-spacing:3px;
+    font-variant-numeric: tabular-nums;
+  }
 
   .quote {
     font-size:22px; color:#e63946; text-align:center;
@@ -67,10 +70,6 @@
   .count { font-size:28px; color:#e63946; margin-top:20px; letter-spacing:2px; }
   .done  { font-size:22px; color:#e63946; text-align:center; line-height:1.8; }
 
-  .newyear-box { display:flex; gap:16px; color:#e63946; text-align:center; }
-  .newyear-box .num { font-size:36px; font-weight:bold; }
-  .newyear-box .unit { font-size:12px; color:#999; margin-top:5px; }
-
   button { margin-top:20px; padding:10px 24px; border:none; border-radius:20px;
            background:#fff; color:#000; cursor:pointer; font-size:15px; }
 </style>
@@ -80,7 +79,7 @@
   <div class="screen active" id="grid-screen">
     <div class="grid">
       <div class="box" onclick="openLetter()">✉️</div>
-      <div class="box" onclick="open520()">♡ ʾʾ</div>
+      <div class="box" onclick="open520()">♡ </div>
       <div class="box" onclick="openPhoto()">照片</div>
       <div class="box" onclick="openBirthday()">生日</div>
       <div class="box" onclick="openQuote()">情話</div>
@@ -113,9 +112,9 @@
     <button onclick="backToGrid()">返回</button>
   </div>
 
+  <!-- 生日 -->
   <div class="screen" id="birthday-screen">
-    <div class="big-num" id="bday-days">0</div>
-    <div class="label">天</div>
+    <div class="clock" id="bd-clock">00:00:00</div>
     <div class="sublabel">距離你的生日（9/15）</div>
     <button onclick="backToGrid()">返回</button>
   </div>
@@ -126,24 +125,16 @@
     <button onclick="backToGrid()">返回</button>
   </div>
 
+  <!-- 在一起 -->
   <div class="screen" id="days-screen">
-    <div class="time-box">
-      <div><div class="num" id="d">0</div><div class="unit">天</div></div>
-      <div><div class="num" id="h">0</div><div class="unit">時</div></div>
-      <div><div class="num" id="m">0</div><div class="unit">分</div></div>
-      <div><div class="num" id="s">0</div><div class="unit">秒</div></div>
-    </div>
+    <div class="clock" id="days-clock">00:00:00</div>
     <div class="sublabel">從 2026/9/9 開始</div>
     <button onclick="backToGrid()">返回</button>
   </div>
 
+  <!-- 跨年 -->
   <div class="screen" id="newyear-screen">
-    <div class="newyear-box">
-      <div><div class="num" id="ny-d">0</div><div class="unit">天</div></div>
-      <div><div class="num" id="ny-h">0</div><div class="unit">時</div></div>
-      <div><div class="num" id="ny-m">0</div><div class="unit">分</div></div>
-      <div><div class="num" id="ny-s">0</div><div class="unit">秒</div></div>
-    </div>
+    <div class="clock" id="ny-clock">00:00:00</div>
     <div class="sublabel">距離 2027/1/1</div>
     <button onclick="backToGrid()">返回</button>
   </div>
@@ -184,6 +175,8 @@
     "想把你寫進我的每一個未來裡。"
   ];
 
+  function pad(n) { return n < 10 ? '0' + n : n; }
+
   function show(id) {
     document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
     document.getElementById(id).classList.add('active');
@@ -213,14 +206,29 @@
 
   function openPhoto() { show('photo-screen'); }
 
+  /* 生日 */
   function openBirthday() {
-    var today = new Date(); today.setHours(0,0,0,0);
-    var month = 9, day = 15;
-    var bday = new Date(today.getFullYear(), month - 1, day);
-    if (bday < today) bday = new Date(today.getFullYear() + 1, month - 1, day);
-    var diff = Math.ceil((bday - today) / (1000 * 60 * 60 * 24));
-    document.getElementById('bday-days').textContent = diff;
     show('birthday-screen');
+    updateBirthday();
+    if (timer) clearInterval(timer);
+    timer = setInterval(updateBirthday, 1000);
+  }
+  function updateBirthday() {
+    var now   = new Date();
+    var month = 9, day = 15;
+    var bday  = new Date(now.getFullYear(), month - 1, day, 0, 0, 0);
+    if (bday < now) bday = new Date(now.getFullYear() + 1, month - 1, day, 0, 0, 0);
+
+    var diff = Math.floor((bday - now) / 1000);
+    if (diff < 0) diff = 0;
+
+    var d = Math.floor(diff / 86400);
+    var h = Math.floor((diff % 86400) / 3600);
+    var m = Math.floor((diff % 3600) / 60);
+    var s = diff % 60;
+
+    document.getElementById('bd-clock').textContent =
+      d + '天 ' + pad(h) + ':' + pad(m) + ':' + pad(s);
   }
 
   function openQuote() { nextQuote(); show('quote-screen'); }
@@ -229,6 +237,7 @@
     document.getElementById('quote-text').textContent = quotes[i];
   }
 
+  /* 在一起 */
   function openDays() {
     show('days-screen'); updateTime();
     if (timer) clearInterval(timer);
@@ -238,12 +247,15 @@
     var start = new Date(2026, 8, 9, 0, 0, 0);
     var now   = new Date();
     var diff  = Math.floor((now - start) / 1000);
-    document.getElementById('d').textContent = Math.floor(diff / 86400);
-    document.getElementById('h').textContent = Math.floor((diff % 86400) / 3600);
-    document.getElementById('m').textContent = Math.floor((diff % 3600) / 60);
-    document.getElementById('s').textContent = diff % 60;
+    var d = Math.floor(diff / 86400);
+    var h = Math.floor((diff % 86400) / 3600);
+    var m = Math.floor((diff % 3600) / 60);
+    var s = diff % 60;
+    document.getElementById('days-clock').textContent =
+      d + '天 ' + pad(h) + ':' + pad(m) + ':' + pad(s);
   }
 
+  /* 跨年 */
   function openNewYear() {
     show('newyear-screen'); updateNewYear();
     if (timer) clearInterval(timer);
@@ -254,10 +266,12 @@
     var now    = new Date();
     var diff   = Math.floor((target - now) / 1000);
     if (diff < 0) diff = 0;
-    document.getElementById('ny-d').textContent = Math.floor(diff / 86400);
-    document.getElementById('ny-h').textContent = Math.floor((diff % 86400) / 3600);
-    document.getElementById('ny-m').textContent = Math.floor((diff % 3600) / 60);
-    document.getElementById('ny-s').textContent = diff % 60;
+    var d = Math.floor(diff / 86400);
+    var h = Math.floor((diff % 86400) / 3600);
+    var m = Math.floor((diff % 3600) / 60);
+    var s = diff % 60;
+    document.getElementById('ny-clock').textContent =
+      d + '天 ' + pad(h) + ':' + pad(m) + ':' + pad(s);
   }
 
   function backToGrid() {
